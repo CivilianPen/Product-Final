@@ -1,0 +1,15 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    main
+{% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+            {% for el in Items %}
+                <div class = 'Goods'>
+                    <p><pre>{{el.goods| safe}} в количестве: {{el.count| safe}} шт, {{el.condition| safe}} </pre></p>
+                </div>
+            {% endfor %}
+    {% endif %}
+{% endblock %}

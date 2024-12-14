@@ -1,0 +1,49 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    sea_battle
+{% endblock %}
+
+{% block content %}
+
+        <div class="main">
+            <p style="text-align:center;">
+                <span>
+                    <a href="http://127.0.0.1:8000/grounds/" class="btn">назад</a>
+                </span>
+            </p>
+
+        </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+<script>
+const retrievedUser = JSON.parse(localStorage.getItem('wins'));
+sttr = retrievedUser.value
+result = sttr.split(',');
+
+
+function setup() {
+    createCanvas(windowWidth,windowHeight);
+
+}
+let y = 100
+function draw() {
+    background(255)
+    textSize(25)
+
+
+        for(let i = 1; i<result.length; i+=2){
+            if (result[i] == '{{ user.username }}') {
+                  fill(27,124,173)
+                  rect(i*100,(y-40),160,60,9)
+                  fill(255)
+                  text(result[i-1],i*100+10,y)
+
+
+            }
+        }
+
+}
+
+</script>
+
+{% endblock %}

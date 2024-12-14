@@ -1,0 +1,24 @@
+{% extends 'main/layout.html' %}
+
+{% block content %}
+<div class = 'form'>
+    <h1>{{title}}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% for f in form %}
+        <table class = 'tab'>
+            <tr>
+                <td class = 'right'><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label></td>
+                <td class = 'left'>{{ f }}</td>
+            </tr>
+        </table>
+        <div class="form-error">{{ f.errors }}</div>
+        {% endfor %}
+    
+        <button type="submit" class="btn2">Регистрация</button>
+    </form>
+</div>
+
+{% endblock %}

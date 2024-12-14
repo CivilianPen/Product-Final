@@ -1,0 +1,230 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    sea_battle
+{% endblock %}
+
+{% block content %}
+
+        <div class="ship">
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+            <script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script class = 'game'>
+
+
+
+                grd = [{% for el in flatt %}{{ el.id | safe }},'{{ el.user }}',{% endfor %}]
+                grounds = []
+                for(let i = 1; i<grd.length; i+=2){
+                    if (grd[i] == '{{ user.username }}') {
+                        grounds.push(grd[i-1])
+                    }
+                 }
+
+                 fl = [{% for el in ship %}{{ el.flat.id | safe }},'{{ el.flat.user }}',{% endfor %}]
+                 flats = []
+                 for(let i = 1; i<fl.length; i+=2){
+                    if (fl[i] == '{{ user.username }}') {
+                        flats.push(fl[i-1])
+                    }
+                 }
+                let sz = [{% for el in flatt %}{{ el.Size| safe }},'{{ el.user }}',{% endfor %}]
+                let size = []
+                for(let i = 1; i<sz.length; i+=2){
+                    if (sz[i] == '{{ user.username }}') {
+                        size.push(sz[i-1])
+                    }
+                 }
+                let ammo=[{% for el in flatt %}{{ el.Ammo| safe }},'{{ el.user }}',{% endfor %}]
+                let att = []
+                for(let i = 1; i<ammo.length; i+=2){
+                    if (ammo[i] == '{{ user.username }}') {
+                        att.push(ammo[i-1])
+                    }
+                 }
+                 xxx = [{% for el in ship %}{{ el.X | safe }},'{{ el.flat.user }}',{% endfor %}]
+                 let xx = []
+                 for(let i = 1; i<xxx.length; i+=2){
+                    if (xxx[i] == '{{ user.username }}') {
+                        xx.push(xxx[i-1])
+                    }
+                 }
+                 yyy = [{% for el in ship %}{{ el.Y | safe }},'{{ el.flat.user }}',{% endfor %}]
+                 let yy = []
+                 for(let i = 1; i<yyy.length; i+=2){
+                    if (yyy[i] == '{{ user.username }}') {
+                        yy.push(yyy[i-1])
+                    }
+                 }
+                 giftt = [{% for el in ship %}{{ el.gift.id | safe }},'{{ el.flat.user }}',{% endfor %}]
+                 let gift = []
+                 for(let i = 1; i<giftt.length; i+=2){
+                    if (giftt[i] == '{{ user.username }}') {
+                        gift.push(giftt[i-1])
+                    }
+                 }
+                 let ships = []
+                 for(let i = 0; i<xx.length; i++){
+                    ships.push([])
+                    ships[i].push(xx[i]-1,yy[i]-1,gift[i],grounds.indexOf(flats[i])+1)
+                 }
+let cellsize = 0
+let prise = ['nononono',{% for el in giftt %}'{{ el.title | safe }}',{% endfor %}]
+let winnings = []
+let c = 0
+let cella=[[]]
+let id=0
+let canvasid=1
+let WH = 0
+let win = {}
+let sttr = ''
+result = []
+class cell{
+  constructor(x,y,id){
+    this.x=x
+    this.y=y
+    this.hit=false
+    this.id=id
+    }
+  active(){
+    if(this.hit==false){rect(this.x*cellsize,this.y*cellsize,cellsize,cellsize)}
+  }
+  h(){
+    if(this.hit==false&&att[canvasid-1]>=1){
+        this.hit=true; att[canvasid-1]-=1;
+
+        if(this.id!=0){
+            id=this.id;
+            winnings.push([prise[this.id], '{{ user.username }}']);
+            c=1
+            const wins = {
+                    value: winnings.toString(),
+            }
+            if (localStorage.length > 0 ){
+            const retrievedUser = JSON.parse(localStorage.getItem('wins'));
+            sttr = retrievedUser.value
+            result = sttr.split(',');
+            }
+            if (result.length/2 < winnings.length){
+                localStorage.setItem('wins', JSON.stringify(wins));
+            }
+      }
+    }
+  }
+}
+
+function setup() {
+  createCanvas(windowHeight, windowHeight-199);
+  WH = windowHeight
+  cellsize = (windowHeight-200)/size[canvasid-1]
+  for(let i=0;i<size[canvasid-1]**2;i++){
+    cella[canvasid-1].push(new cell(i%size[canvasid-1],~~(i/size[canvasid-1]),0))
+    for(let j=0;j<ships.length;j++){
+      if(ships[j][0]==i%size[canvasid-1]&&ships[j][1]==~~(i/size[canvasid-1])&&ships[j][3]==canvasid){
+        cella[canvasid-1][i].id=ships[j][2]
+      }
+    }
+  }
+}
+
+function draw() {
+
+  switch(c){
+      case(0):
+        background(27,124,173);
+        for(let i=0;i<size[canvasid-1]**2;i++){
+          cella[canvasid-1][i].active()
+        }
+        if(att[canvasid-1]==0){c=2}
+        break
+      case(1):
+        background(27,124,173,50);
+        fill(255)
+        rect((WH-(WH/2))/6,  (WH-(WH/2))/6,  ((WH-199)-(WH-(WH/2))/3),  2*(((WH-199)/12)+((WH-199)/15)),  30)
+        fill('lime')
+        rect((WH-(WH/2))/6+(((WH-199)-(WH-(WH/2))/3)/2)-120,  (WH-(WH/2))/1.7,  240,  80,  30)
+        fill('green')
+        textSize(30)
+        text('Продолжить', (WH-(WH/2))/6+(((WH-199)-(WH-(WH/2))/3)/2)-100,((WH-(WH/2))/1.7)+50)
+        fill(0)
+        textSize((WH-199)/15)
+        text('Поздравляем!', (WH-(WH/2))/2.5, (WH-(WH/2))/3)
+        textSize((WH-199)/20)
+        text('Ваш выигрыш:', (WH-(WH/2))/2.5, (WH-(WH/2))/2.3)
+        textSize((WH-199)/25)
+        text(prise[id],  (WH-(WH/2))/2.5, (WH-(WH/2))/1.9)
+        break
+      case(2):
+        background(27,124,173,50);
+        fill(255)
+        rect((WH-(WH/2))/6,(WH-(WH/2))/6,((WH-199)-(WH-(WH/2))/3),2*(((WH-199)/12)+((WH-199)/15)),30)
+        fill(0)
+        textSize((WH-199)/12)
+        text('Игра окончена', (WH-(WH/2))/5, (WH-(WH/2))/3)
+        textSize((WH-199)/15)
+        text('Выстрелы кончились', (WH-(WH/2))/5, (WH-(WH/2))/3+(WH-199)/15)
+        if(att[canvasid-1]!=0){c=0}
+        break
+  }
+  fill(0)
+  textSize(30)
+  text("Выстрелы:",WH-189,50)
+  text(att[canvasid-1],WH-130,100)
+  text("Поле:",WH-189,150)
+  text(canvasid,WH-130,200)
+  fill('lime')
+  rect(WH-199,250,200,100,30)
+  fill('green')
+  textSize(39)
+  text('Поменять', WH-189, 312)
+  fill(255)
+}
+function mouseClicked(){
+  switch(c){
+      case(0):
+        if(mouseX<=WH-205&&mouseY<=WH-199&&mouseX>=0&&mouseY>=0){cella[canvasid-1][(~~(mouseX/cellsize)+(~~(mouseY/cellsize)*size[canvasid-1]))].h()}
+        break
+      case(1):
+        //rect((WH-(WH/2))/6+(((WH-199)-(WH-(WH/2))/3)/2)-120,  (WH-(WH/2))/1.7,  240,  80,  30)
+        if(mouseX>=(WH-(WH/2))/6+(((WH-199)-(WH-(WH/2))/3)/2)-120&&mouseX<=(WH-(WH/2))/6+(((WH-199)-(WH-(WH/2))/3)/2)+120&&mouseY>=(WH-(WH/2))/1.7&&mouseY<=((WH-(WH/2))/1.7)+80){
+            c=0
+        }
+  }
+  if(mouseX>=WH-199&&mouseX<=WH&&mouseY>=250&&mouseY<=350){
+    canvasid+=1
+    if(canvasid>size.length){
+      canvasid=1
+    }
+    if(typeof cella[canvasid-1] == 'undefined'){
+      cella.push([])
+      for(let i=0;i<size[canvasid-1]**2;i++){
+        cella[canvasid-1].push(new cell(i%size[canvasid-1],~~(i/size[canvasid-1]),0))
+        for(let j=0;j<ships.length;j++){
+          if(ships[j][0]==i%size[canvasid-1]&&ships[j][1]==~~(i/size[canvasid-1])&&ships[j][3]==canvasid){
+            cella[canvasid-1][i].id=ships[j][2]
+          }
+        }
+      }
+    }
+    cellsize = (WH-200)/size[canvasid-1]
+  }
+}
+
+</script>
+
+
+            <p style="text-align:center;">
+                <span>
+                    <a href="http://127.0.0.1:8000/" class="btn">назад</a>
+                </span>
+                &nbsp;&nbsp;&nbsp;
+                <span>
+                    <a href="http://127.0.0.1:8000/grounds/winning" class="btn">призы</a>
+                </span>
+            </p>
+
+        </div>
+
+{% endblock %}
