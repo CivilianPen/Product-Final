@@ -1,0 +1,29 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Main
+{% endblock %}
+
+{% block content %}
+                <div class = 'art'>
+                    <p><pre > what do u want to order</pre></p>
+                    <form action="{% url 'application' %}" method="post">
+                        {% csrf_token %}
+                        <p><label for="{{ form.User.id_for_label }}"> {{form.User.label}}:</label> {{ form.User}}</p>
+                        <div>{{ form.User.errors}}</div>
+                        <p><label for="{{ form.Request.id_for_label }}"> {{form.Request.label}}:</label> {{ form.Request}}</p>
+                        <div>{{ form.Request.errors}}</div>
+                        <button class="btn" type="submit">
+                            Добавить
+                        </button>
+                    </form>
+                    {% for el in r %}
+                        <div class = 'review'>
+                            <div class="tit"><p><pre > {{el.User}} </pre></p></div>
+                            <p><pre > {{el.Request}} </pre></p>
+                        </div>
+
+                    {% endfor %}
+                </div>
+
+{% endblock %}

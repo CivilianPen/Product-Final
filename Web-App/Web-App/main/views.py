@@ -5,8 +5,6 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.shortcuts import render
-from django.http import HttpResponse
 from django.views.generic import CreateView
 
 from .forms import *
@@ -15,14 +13,25 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 from .utils import *
 
-#def login(request):
-#    return HttpResponse("Авторизация")
+def ApplicationsForm(request):
+    if request.method == 'POST':
+        form = AddPostFormR(request.POST)
+        if form.is_valid():
+            try:
+                Applications.objects.create(**form.cleaned_data)
+                return  redirect('application')
+            except:
+                form.add_error(None,'Ошибка')
+    else:
+        form=AddPostFormR()
+
+    r = list(Applications.objects.all())
+    return render(request, 'main/Application.html' , {'form': form ,'r' : r})
+
 def page(request):
     Items = list(Goods.objects.all())
     return render(request, 'main/index.html' , {'Items': Items})
-def addpage(request):
-    form = AddPostForm()
-    return render(request, 'main/addpage.html', {'form': form})
+
 
 class RegisterUser(DataMixin, CreateView):
     form_class = UserCreationForm

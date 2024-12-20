@@ -1,9 +1,12 @@
 from django import forms
 from django.contrib.auth.models import User
-
 from .models import *
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import get_user_model
 
+class AddPostFormR(forms.Form):
+    User = forms.CharField(max_length=16)
+    Request = forms.CharField(widget=forms.Textarea(attrs={'cols': 70, 'rows': 1}))
 
 class AddPostForm(forms.Form):
     login = forms.CharField(max_length=255)
@@ -20,3 +23,4 @@ class RegisterUserForm(UserCreationForm):
 class LoginUserForm(AuthenticationForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+
