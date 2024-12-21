@@ -15,7 +15,7 @@ from .utils import *
 
 def ApplicationsForm(request):
     if request.method == 'POST':
-        form = AddPostFormR(request.POST)
+        form = AddPostFormR(request.POST or None, user=request.user)
         if form.is_valid():
             try:
                 Applications.objects.create(**form.cleaned_data)
@@ -23,7 +23,7 @@ def ApplicationsForm(request):
             except:
                 form.add_error(None,'Ошибка')
     else:
-        form=AddPostFormR()
+        form=AddPostFormR(user=request.user)
 
     r = list(Applications.objects.all())
     return render(request, 'main/Application.html' , {'form': form ,'r' : r})

@@ -4,13 +4,13 @@ body{
 .top{
     background: #1B7CAD;
     width: 100%;
-    height: 60px;
+    height: 90px;
 }
 .back{
     height: 100%;
     width: 100%;
 }
-main .logo {
+.logo {
     font-weight: bold;
     border-radius: 4px;
     color: #fff;
@@ -33,20 +33,30 @@ a.logo:hover {
 background-color: rgb( 82, 164, 206 );
 }
 
-main .logo2 {
-    font-size: 20px;
+.logo2 {
+    font-size: 23px;
+    padding-top: 7px;
     margin-left: 20px;
     font-weight: bold;
-    position: relative;
     color: #fff;
+
 }
-main .mainmenu {
-    color: #cae8ff;
+.lower {
+    width: 100%;
+    height: 50%;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 .tab {
     width: 50%;
     vertical-align: middle;
     font-size: 24px;
+}
+.menu {
+    width: 50%;
+    vertical-align: middle;
+    font-size: 24px;
+    color: #fff;
 }
 .rules {
     text-align: left;
@@ -55,7 +65,7 @@ main .mainmenu {
 .last {
     font-size: 24px;
     float:right;
-    margin: 8px;
+    color: #fff;
 }
 canvas {
     padding-left: 0;
@@ -174,6 +184,5 @@ background-color: rgb( 82, 164, 206 );
 
 
 .form {
-   margin:0 25% 0 25%;
-   width:50%;
+   width:100%;
 }

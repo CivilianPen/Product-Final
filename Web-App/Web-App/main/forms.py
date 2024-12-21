@@ -5,8 +5,17 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
 
 class AddPostFormR(forms.Form):
-    User = forms.CharField(max_length=16)
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(AddPostFormR, self).__init__(*args, **kwargs)
+        if self.user:
+            # Do something with the user, such as pre-populate a field
+            self.fields['username'].initial = self.user.username
+    username = forms.Field(disabled=True)
+
     Request = forms.CharField(widget=forms.Textarea(attrs={'cols': 70, 'rows': 1}))
+
+
 
 class AddPostForm(forms.Form):
     login = forms.CharField(max_length=255)

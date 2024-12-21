@@ -13,23 +13,20 @@
 <body>
     <div class = "back">
         <div class = 'top'>
-            <main>
 
-                <a class="logo" href="http://127.0.0.1:8000/main/">УСИ</a> <samp class="logo2">управление спортивным инвентарем</samp>
+                 <div class="logo2"><samp>Управление спортивным инвентарем</samp></div>
+
+                <div class = 'lower'>
+                  <a href="http://127.0.0.1:8000/main/" class = 'menu'>УСИ</a>
+
 
                 {% if request.user.is_authenticated %}
-                <table class = "table2">
-                    <tr>
-                        <td>
-                <li class="last"> {{user.username}} | <a href="{% url 'logout' %}" class="btn3">Выйти</a></li>
-                {% else %}
-                <li class="last"><a href="register" class="btn3">Регистрация</a>  <a href="login" class="btn3">Войти</a></li>
+                    <li class="last"> {{user.username}} | <a href="{% url 'logout' %}" class="last">Выйти</a></li>
+                    {% else %}
+                    <li class="last"><a href="register" class="last"> | Регистрация</a>  <a href="login" class="last"> Войти |</a></li>
                 {% endif %}
-                        </td>
-                    </tr>
-                </table>
 
-            </main>
+                </div>
 
         </div>
 

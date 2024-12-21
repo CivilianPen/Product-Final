@@ -9,7 +9,7 @@
                     <p><pre > what do u want to order</pre></p>
                     <form action="{% url 'application' %}" method="post">
                         {% csrf_token %}
-                        <p><label for="{{ form.User.id_for_label }}"> {{form.User.label}}:</label> {{ form.User}}</p>
+                        <p><label for="{{ form.username.id_for_label }}"> {{form.username.label}}:</label> {{form.username}}</p>
                         <div>{{ form.User.errors}}</div>
                         <p><label for="{{ form.Request.id_for_label }}"> {{form.Request.label}}:</label> {{ form.Request}}</p>
                         <div>{{ form.Request.errors}}</div>
@@ -19,7 +19,7 @@
                     </form>
                     {% for el in r %}
                         <div class = 'review'>
-                            <div class="tit"><p><pre > {{el.User}} </pre></p></div>
+                            <div class="tit"><p><pre > {{el.username}} </pre></p></div>
                             <p><pre > {{el.Request}} </pre></p>
                         </div>
 

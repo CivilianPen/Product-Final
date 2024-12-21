@@ -13,5 +13,5 @@ class Goods(models.Model):
         return self.goods
 
 class Applications(models.Model):
-    User = models.CharField('ИМЯ',max_length=16)
+    username = models.CharField(max_length=100)
     Request = models.CharField('ОТЗЫВ',max_length=1600)
