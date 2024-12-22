@@ -12,21 +12,37 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 from .utils import *
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('main')
+
 
 def ApplicationsForm(request):
+
+    #logging.info()
+    g = list(Goods.objects.all())
+    r = list(Applications.objects.all())
     if request.method == 'POST':
         form = AddPostFormR(request.POST or None, user=request.user)
         if form.is_valid():
             try:
-                Applications.objects.create(**form.cleaned_data)
-                return  redirect('application')
+                item = int(form.data['Request'])
+                counts = []
+                for el in g:
+                    counts.append(el.count)
+
+                if int(form.data['Request_count']) <= counts[item-1]:
+                    Applications.objects.create(**form.cleaned_data)
+                    return  redirect('application')
+                else:
+                    error = [1,2,3]
+                    return render(request, 'main/Application.html', {'form': form ,'r' : r,'g' : g,'error': error })
             except:
                 form.add_error(None,'Ошибка')
     else:
         form=AddPostFormR(user=request.user)
 
-    r = list(Applications.objects.all())
-    return render(request, 'main/Application.html' , {'form': form ,'r' : r})
+    return render(request, 'main/Application.html' , {'form': form ,'r' : r,'g' : g})
 
 def page(request):
     Items = list(Goods.objects.all())
@@ -46,6 +62,7 @@ class RegisterUser(DataMixin, CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
+        Users.objects.create(User=user)
         return redirect('main')
 
 

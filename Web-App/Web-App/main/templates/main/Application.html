@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+               {% if request.user.is_authenticated %}
                 <div class = 'art'>
                     <p><pre > Форма подачи заявки на получение инвентаря</pre></p>
                     <form action="{% url 'application' %}" method="post">
@@ -20,12 +21,21 @@
                             Добавить
                         </button>
 
+                        <script>
+
+                            if ({{ error }}) {
+                                  window.onload = function() {
+                                        alert('Слишком много');
+                                   };
+                            }
+
+                        </script>
 
                     </form>
                     <p><pre > Ваши заявки</pre></p>
                     {% for el in r %}
                         <div class = 'review'>
-                            <p><pre > Заявка номер {{el.id}} </pre></p>
+
                             <div class="tit"><p><pre > Имя: {{el.username}} </pre></p></div>
                             <p><pre > Предмет: {{el.Request}} </pre></p>
                             <p><pre > Количество: {{el.Request_count}} </pre></p>
@@ -34,5 +44,5 @@
 
                     {% endfor %}
                 </div>
-
+                {% endif %}
 {% endblock %}
