@@ -10,6 +10,6 @@ class GoodsAdmin(admin.ModelAdmin):
 
 @admin.register(Applications)
 class ApplicationsAdmin(admin.ModelAdmin):
-    list_display = ['username','Request']
-    list_editable = ['Request']
+    list_display = ['username','Request','Request_count','Status']
+    list_editable = ['Request','Request_count','Status']
     list_display_links = None

@@ -6,21 +6,30 @@
 
 {% block content %}
                 <div class = 'art'>
-                    <p><pre > what do u want to order</pre></p>
+                    <p><pre > Форма подачи заявки на получение инвентаря</pre></p>
                     <form action="{% url 'application' %}" method="post">
                         {% csrf_token %}
-                        <p><label for="{{ form.username.id_for_label }}"> {{form.username.label}}:</label> {{form.username}}</p>
+                        <p><label for="{{ form.username.id_for_label }}"> Имя:</label> {{form.username}}</p>
                         <div>{{ form.User.errors}}</div>
-                        <p><label for="{{ form.Request.id_for_label }}"> {{form.Request.label}}:</label> {{ form.Request}}</p>
+                        <p><label for="{{ form.Request.id_for_label }}"> Предмет:</label> {{ form.Request}}</p>
                         <div>{{ form.Request.errors}}</div>
-                        <button class="btn" type="submit">
+                        <p><label for="{{ form.Request_count.id_for_label }}"> Количество:</label> {{ form.Request_count}}</p>
+                        <div>{{ form.Request_count.errors}}</div>
+
+                        <button class="btn2" type="submit">
                             Добавить
                         </button>
+
+
                     </form>
+                    <p><pre > Ваши заявки</pre></p>
                     {% for el in r %}
                         <div class = 'review'>
-                            <div class="tit"><p><pre > {{el.username}} </pre></p></div>
-                            <p><pre > {{el.Request}} </pre></p>
+                            <p><pre > Заявка номер {{el.id}} </pre></p>
+                            <div class="tit"><p><pre > Имя: {{el.username}} </pre></p></div>
+                            <p><pre > Предмет: {{el.Request}} </pre></p>
+                            <p><pre > Количество: {{el.Request_count}} </pre></p>
+                            <p><pre > Статус: {{el.Status}} </pre></p>
                         </div>
 
                     {% endfor %}

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from .models import *
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 class AddPostFormR(forms.Form):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
@@ -12,9 +12,12 @@ class AddPostFormR(forms.Form):
             # Do something with the user, such as pre-populate a field
             self.fields['username'].initial = self.user.username
     username = forms.Field(disabled=True)
+    C =(Goods.objects.values_list('count'))
+    N = (Goods.objects.values_list('goods'))
 
-    Request = forms.CharField(widget=forms.Textarea(attrs={'cols': 70, 'rows': 1}))
 
+    Request = forms.ModelChoiceField(Goods.objects.all())
+    Request_count = forms.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
 
 
 class AddPostForm(forms.Form):
