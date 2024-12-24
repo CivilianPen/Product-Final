@@ -4,7 +4,12 @@ from .models import *
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('main')
+
 class AddPostFormR(forms.Form):
+
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(AddPostFormR, self).__init__(*args, **kwargs)
@@ -17,7 +22,7 @@ class AddPostFormR(forms.Form):
 
 
     Request = forms.ModelChoiceField(Goods.objects.all())
-    Request_count = forms.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
+    Request_count = forms.IntegerField(validators=[MinValueValidator(1)])
 
 
 class AddPostForm(forms.Form):

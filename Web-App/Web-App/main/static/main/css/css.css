@@ -76,14 +76,16 @@ canvas {
     display: block;
 }
 .Goods {
-    font-size: 24px;
     float: left;
     width: 100%;
-    padding-left: 20%;
-    margin: 0px 0%;
-    border-width: 0px 0px 5px 0px ; /* top right bottom left */
-    border-style: solid ;
+    margin: 15px 0%;
+
+    /* border-width: 0px 0px 5px 0px ;  top right bottom left */
+    /* border-style: solid ; */
     border-color: #cae8ff ;
+
+    display: grid;
+    place-items: center;
 
 }
 h1 {
@@ -182,8 +184,74 @@ a.btn3:hover {
 background-color: rgb( 82, 164, 206 );
 }
 
-
-
 .form {
    width:100%;
+}
+
+.goods {
+  border-collapse: collapse;
+  border: 2px solid rgb(140 140 140);
+  font-size: 1.7rem;
+  letter-spacing: 1px;
+}
+
+.headTable {
+  background-color: rgb(228 240 245);
+}
+
+.TH,
+.TD {
+  border: 3px solid rgb(160 160 160);
+  padding: 8px 10px;
+}
+
+.td:last-of-type {
+  text-align: center;
+}
+
+.bodyTable > TR:nth-of-type(even) {
+  background-color: rgb(237 238 242);
+}
+
+.TH {
+  text-align: right;
+  font-weight: bold;
+}
+
+.TD {
+  font-weight: normal;
+}
+.form_user {
+    display: grid;
+    place-items: center;
+}
+.form_content {
+    padding-top: 27px;
+    font-size: 1.7rem;
+    background-color: #e3f5ff;
+    padding-left: 100px;
+    padding-right: 100px;
+    border-radius: 50px;
+}
+.form_title {
+    margin-top: 15px;
+    font-size: 1.7rem;
+}
+.form_forms_p {
+    margin-top: 15px;
+    font-size: 1.7rem;
+    text-align: center;
+}
+.review {
+    float: left;
+    overflow:auto;
+    width: 440px;
+    margin-top: 15px;
+    margin-left: 30px;
+    font-size: 1.7rem;
+    background-color: #e3f5ff;
+    border-radius: 20px;
+    padding-left: 40px;
+    padding-top: 15px;
+    padding-bottom: 15px
 }

@@ -25,7 +25,7 @@ class Applications(models.Model):
 
 class Users(models.Model):
     User = models.CharField(max_length=100)
-    Rent = models.ForeignKey('Goods', on_delete=models.PROTECT, null=True)
+    Rent = models.ForeignKey('Goods', on_delete=models.PROTECT, null=True,blank=True)
     Count = models.IntegerField('Количество',default=0,validators=[MinValueValidator(0), MaxValueValidator(100)])
 
 

@@ -6,10 +6,28 @@
 
 {% block content %}
     {% if request.user.is_authenticated %}
-            {% for el in Items %}
+
                 <div class = 'Goods'>
-                    <p><pre>{{el.goods| safe}} в количестве: {{el.count| safe}} шт, {{el.condition| safe}} </pre></p>
+
+                    <table class = 'goods'>
+                      <thead class = 'headTable'>
+                        <tr class = 'TR'>
+                          <th class = 'TH'>Название</th>
+                          <th class = 'TH'>Количество</th>
+                          <th class = 'TH'>Состояние</th>
+                        </tr>
+                      </thead>
+                      <tbody class = 'bodyTable' >
+                      {% for el in Items %}
+                        <tr class = 'TR'>
+                          <th class = 'TH'><p><pre> {{el.goods| safe}}</pre></p></th>
+                          <td class = 'TD'><p><pre> {{el.count| safe}}</pre></p></td>
+                          <td class = 'TD'><p><pre> {{el.condition| safe}}</pre></p></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
                 </div>
-            {% endfor %}
+
+
     {% endif %}
 {% endblock %}

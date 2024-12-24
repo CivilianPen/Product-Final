@@ -6,9 +6,10 @@
 
 {% block content %}
                {% if request.user.is_authenticated %}
-                <div class = 'art'>
-                    <p><pre > Форма подачи заявки на получение инвентаря</pre></p>
-                    <form action="{% url 'application' %}" method="post">
+                <div class = 'form_user'>
+                    <p class = 'form_title'>Форма подачи заявки на получение инвентаря</p>
+                    <form action="{% url 'application' %}" method="post" class ='form_content'>
+
                         {% csrf_token %}
                         <p><label for="{{ form.username.id_for_label }}"> Имя:</label> {{form.username}}</p>
                         <div>{{ form.User.errors}}</div>
@@ -16,33 +17,37 @@
                         <div>{{ form.Request.errors}}</div>
                         <p><label for="{{ form.Request_count.id_for_label }}"> Количество:</label> {{ form.Request_count}}</p>
                         <div>{{ form.Request_count.errors}}</div>
-
+                        <div>
+                            <ul class="errorlist">
+                                <li>{{ error}}</li>
+                            </ul>
+                        </div>
                         <button class="btn2" type="submit">
                             Добавить
                         </button>
-
-                        <script>
-
-                            if ({{ error }}) {
-                                  window.onload = function() {
-                                        alert('Слишком много');
-                                   };
-                            }
-
-                        </script>
-
                     </form>
-                    <p><pre > Ваши заявки</pre></p>
-                    {% for el in r %}
-                        <div class = 'review'>
+                </div>
 
-                            <div class="tit"><p><pre > Имя: {{el.username}} </pre></p></div>
-                            <p><pre > Предмет: {{el.Request}} </pre></p>
-                            <p><pre > Количество: {{el.Request_count}} </pre></p>
-                            <p><pre > Статус: {{el.Status}} </pre></p>
+                    <div class = 'form_forms'>
+                        <p class = 'form_forms_p'> Ваши заявки , {{ request.user }} </p>
+
+                    {% for el in n %}
+
+                        <div class = 'review'>
+                            <p><pre >Предмет: {{el.Request}} </pre></p>
+                            <p><pre >Количество: {{el.Request_count}} </pre></p>
+                            <p><pre >Статус: {{el.Status}} </pre></p>
                         </div>
 
                     {% endfor %}
-                </div>
+                    </div>
+
+
                 {% endif %}
+
+<script>
+
+console.log( '{{request.user}}' , '{% for el in r %}{{el.username}}{% endfor %}')
+
+</script>
 {% endblock %}

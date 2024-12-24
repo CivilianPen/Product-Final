@@ -16,12 +16,16 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('main')
 
-
 def ApplicationsForm(request):
 
     #logging.info()
     g = list(Goods.objects.all())
     r = list(Applications.objects.all())
+    n = []
+    for el in r:
+        if request.user.username == el.username:
+            n.append(el)
+
     if request.method == 'POST':
         form = AddPostFormR(request.POST or None, user=request.user)
         if form.is_valid():
@@ -35,14 +39,16 @@ def ApplicationsForm(request):
                     Applications.objects.create(**form.cleaned_data)
                     return  redirect('application')
                 else:
-                    error = [1,2,3]
-                    return render(request, 'main/Application.html', {'form': form ,'r' : r,'g' : g,'error': error })
+                    error = 'Убедитесь, что инвентаря достаточно'
+                    return render(request, 'main/Application.html', {'form': form ,'n' : n,'g' : g,'error': error })
             except:
                 form.add_error(None,'Ошибка')
     else:
         form=AddPostFormR(user=request.user)
 
-    return render(request, 'main/Application.html' , {'form': form ,'r' : r,'g' : g})
+
+
+    return render(request, 'main/Application.html' , {'form': form ,'n' : n,'g' : g})
 
 def page(request):
     Items = list(Goods.objects.all())
