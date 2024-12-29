@@ -29,7 +29,7 @@
                 </div>
 
                     <div class = 'form_forms'>
-                        <p class = 'form_forms_p'> Ваши заявки , {{ request.user }} </p>
+                        <p class = 'form_forms_p'> Ваши заявки, {{ request.user }} </p>
 
                     {% for el in n %}
 
@@ -41,13 +41,9 @@
 
                     {% endfor %}
                     </div>
+                {% else %}
 
+                    <p class = 'enter_or_reg'>Войдите или зарегистрируйтесь</p>
 
                 {% endif %}
-
-<script>
-
-console.log( '{{request.user}}' , '{% for el in r %}{{el.username}}{% endfor %}')
-
-</script>
 {% endblock %}

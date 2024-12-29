@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'main',
-    'grounds',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,14 +54,6 @@ ROOT_URLCONF = 'Web-App.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.jinja2.Jinja2',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'environment': 'Web-App.jinja2.environment',
-        },
-    },
-{
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
         'APP_DIRS': True,
