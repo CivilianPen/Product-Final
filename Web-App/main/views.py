@@ -37,8 +37,10 @@ def AdminPage(request):
             if not (el2 in U2):
                 el2.rented_count = 0
                 el2.save()
-                
+
         return render(request, 'main/Admin.html')
+    else:
+        return render(request, 'main/Error.html')
 def ApplicationsForm(request):
 
     #logging.info()
