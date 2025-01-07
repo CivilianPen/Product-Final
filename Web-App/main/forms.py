@@ -16,6 +16,7 @@ class AddPostFormR(forms.Form):
         if self.user:
             # Do something with the user, such as pre-populate a field
             self.fields['username'].initial = self.user.username
+
     username = forms.Field(disabled=True)
     C =(Goods.objects.values_list('count'))
     N = (Goods.objects.values_list('goods'))

@@ -9,7 +9,9 @@ class Goods(models.Model):
     state = {'новый':'новый','используемый':'используемый','сломанный': 'сломанный'}
     goods = models.CharField('Название',max_length=30)
     count = models.IntegerField('Количество')
+    rented_count = models.IntegerField('Взято',default=0)
     condition = models.CharField('Состояние',max_length=20, choices=state)
+
 
 
     def __str__(self):
@@ -24,9 +26,14 @@ class Applications(models.Model):
 
 
 class Users(models.Model):
-    User = models.CharField(max_length=100)
+    User = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='scores',
+    )
     Rent = models.ForeignKey('Goods', on_delete=models.PROTECT, null=True,blank=True)
     Count = models.IntegerField('Количество',default=0,validators=[MinValueValidator(0), MaxValueValidator(100)])
+    Plus = models.BooleanField(default=False,editable=False)
 
 
 

@@ -16,6 +16,29 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('main')
 
+def AdminPage(request):
+    if request.user.is_superuser:
+        g = list(Goods.objects.all())
+        u = list(Users.objects.all())
+        U2 = []
+        for el in u:
+            U2.append(el.Rent)
+
+
+        for el2 in g:
+            for el in u:
+                if el2 == el.Rent and el.Plus == False:
+                    el2.rented_count += el.Count
+                    el.Plus = True
+                    el2.save()
+                    el.save()
+
+        for el2 in g:
+            if not (el2 in U2):
+                el2.rented_count = 0
+                el2.save()
+                
+        return render(request, 'main/Admin.html')
 def ApplicationsForm(request):
 
     #logging.info()
@@ -25,19 +48,21 @@ def ApplicationsForm(request):
     for el in r:
         if request.user.username == el.username:
             n.append(el)
-
     if request.method == 'POST':
+
         form = AddPostFormR(request.POST or None, user=request.user)
         if form.is_valid():
             try:
                 item = int(form.data['Request'])
+                rented_counts = []
                 counts = []
                 for el in g:
+                    rented_counts.append(el.rented_count)
                     counts.append(el.count)
-
-                if int(form.data['Request_count']) <= counts[item-1]:
+                if int(form.data['Request_count']) <= (counts[item-1] - rented_counts[item-1]):
                     Applications.objects.create(**form.cleaned_data)
                     return  redirect('application')
+
                 else:
                     error = 'Убедитесь, что инвентаря достаточно'
                     return render(request, 'main/Application.html', {'form': form ,'n' : n,'g' : g,'error': error })
@@ -52,6 +77,8 @@ def ApplicationsForm(request):
 
 def page(request):
     Items = list(Goods.objects.all())
+    for el in Items:
+        el.count=el.count-el.rented_count
     return render(request, 'main/index.html' , {'Items': Items})
 
 
@@ -68,7 +95,6 @@ class RegisterUser(DataMixin, CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        Users.objects.create(User=user)
         return redirect('main')
 
 
