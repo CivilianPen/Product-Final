@@ -21,3 +21,13 @@ class UsersAdmin(admin.ModelAdmin):
     list_display = ['User','Rent','Count','Plus']
     list_editable = ['Rent','Count']
     list_display_links = None
+
+
+@admin.register(Supplier)
+class SupplierAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
+@admin.register(PurchasePlan)
+class PurchasePlanAdmin(admin.ModelAdmin):
+    list_display = ('item', 'supplier', 'planned_price', 'planned_date')

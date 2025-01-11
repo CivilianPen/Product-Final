@@ -9,5 +9,6 @@ urlpatterns = [
     path('register', RegisterUser.as_view(), name='register'),
     path('login', LoginUser.as_view(), name="login"),
     path('logout', logout_user, name="logout"),
-    path('console',views.AdminPage, name = 'console')
+    path('console',views.AdminPage, name = 'console'),
+    path('add-purchase-plan/', views.add_purchase_plan, name='add_purchase_plan'),
 ]

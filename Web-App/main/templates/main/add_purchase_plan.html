@@ -1,0 +1,29 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Add Plan
+{% endblock %}
+
+{% block script %}
+    <title>Добавить план закупки</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+{% endblock %}
+
+{% block content %}
+    <h1>Добавить план закупки</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Добавить</button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
+    <script>
+        flatpickr('.flatpickr', {
+            enableTime: false, // Если нужно выбирать время
+            dateFormat: "d-m-Y", // Формат даты
+            locale: "ru" // Локализация
+        });
+    </script>
+{% endblock %}

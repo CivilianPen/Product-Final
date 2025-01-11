@@ -36,4 +36,26 @@ class Users(models.Model):
     Plus = models.BooleanField(default=False,editable=False)
 
 
+class Supplier(models.Model):
+    name = models.CharField(max_length=255, unique=True, verbose_name="Поставщик")
 
+    class Meta:
+        verbose_name = "Поставщик"
+        verbose_name_plural = "Поставщики"
+
+    def __str__(self):
+        return self.name
+
+
+class PurchasePlan(models.Model):
+    item = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='purchase_plans', verbose_name="Товар")
+    supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, verbose_name="Поставщик")
+    planned_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Планируемая цена")
+    planned_date = models.DateField(verbose_name="Планируемая дата")
+
+    class Meta:
+        verbose_name = "План закупки"
+        verbose_name_plural = "Планы закупок"
+
+    def __str__(self):
+        return f"{self.item.goods} from {self.supplier.name} at {self.planned_price} on {self.planned_date}"

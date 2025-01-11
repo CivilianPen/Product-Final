@@ -1,3 +1,8 @@
 
 /.idea
 /Web-App/Web-App/grounds/__pycache__
+Web-App/db.sqlite3
+/Web-App/main/__pycache__
+/Web-App/main/migrations/__pycache__
+*.pyc
+Web-App/db.sqlite3

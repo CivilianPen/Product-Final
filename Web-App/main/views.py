@@ -117,3 +117,14 @@ class LoginUser(DataMixin, LoginView):
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+
+def add_purchase_plan(request):
+    if request.method == "POST":
+        form = PurchasePlanForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('add_purchase_plan')
+    else:
+        form = PurchasePlanForm()
+    return render(request, 'main/add_purchase_plan.html', {'form': form})

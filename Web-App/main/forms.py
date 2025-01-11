@@ -42,3 +42,24 @@ class LoginUserForm(AuthenticationForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
 
+
+class PurchasePlanForm(forms.ModelForm):
+    class Meta:
+        model = PurchasePlan
+        fields = ['item', 'supplier', 'planned_price', 'planned_date']
+        labels = {
+            'item': 'Товар',
+            'supplier': 'Поставщик',
+            'planned_price': 'Планируемая цена',
+            'planned_date': 'Планируемая дата',
+        }
+        widgets = {
+            'planned_date': forms.TextInput(attrs={'class': 'flatpickr'}),
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        supplier = cleaned_data.get("supplier")
+        if not supplier:
+            raise forms.ValidationError("Поставщик обязателен.")
+        return cleaned_data
