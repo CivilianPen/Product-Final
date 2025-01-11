@@ -46,11 +46,12 @@ class LoginUserForm(AuthenticationForm):
 class PurchasePlanForm(forms.ModelForm):
     class Meta:
         model = PurchasePlan
-        fields = ['item', 'supplier', 'planned_price', 'planned_date']
+        fields = ['item', 'supplier', 'planned_price', 'count', 'planned_date']
         labels = {
             'item': 'Товар',
             'supplier': 'Поставщик',
             'planned_price': 'Планируемая цена',
+            'count': "Количество",
             'planned_date': 'Планируемая дата',
         }
         widgets = {

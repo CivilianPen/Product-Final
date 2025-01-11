@@ -119,6 +119,7 @@ def logout_user(request):
     return redirect('login')
 
 
+# /add-purchase-plan/
 def add_purchase_plan(request):
     if request.method == "POST":
         form = PurchasePlanForm(request.POST)
@@ -127,4 +128,11 @@ def add_purchase_plan(request):
             return redirect('add_purchase_plan')
     else:
         form = PurchasePlanForm()
-    return render(request, 'main/add_purchase_plan.html', {'form': form})
+    return render(request, 'admin/add_purchase_plan.html', {'form': form})
+
+
+# /purchase-plan-list/
+def purchase_plan_list(request):
+    # Получаем все записи из модели PurchasePlan
+    plans = PurchasePlan.objects.select_related('item', 'supplier').all()
+    return render(request, 'admin/purchase_plan_list.html', {'plans': plans})
