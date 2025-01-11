@@ -6,7 +6,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Goods(models.Model):
-    state = {'новый':'новый','используемый':'используемый','сломанный': 'сломанный'}
+    state = {'новый':'новый','использованный':'использованный','сломанный': 'сломанный'}
     goods = models.CharField('Название',max_length=30)
     count = models.IntegerField('Количество')
     rented_count = models.IntegerField('Взято',default=0)
