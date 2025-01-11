@@ -1,0 +1,10 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Админка
+{% endblock %}
+
+{% block content %}
+    <a href="{% url 'add_purchase_plan' %}" class = 'btn4'> Добавить план закупок </a>
+    <a href="{% url 'purchase_plan_list' %}" class = 'btn4'> Все планы закупок </a>
+{% endblock %}

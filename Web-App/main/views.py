@@ -38,21 +38,21 @@ def AdminPage(request):
                 el2.rented_count = 0
                 el2.save()
 
-        return render(request, 'main/Admin.html')
+        return render(request, 'admin/Admin.html')
     else:
-        return render(request, 'main/Error.html')
+        return render(request, 'admin/Error.html')
 def ApplicationsForm(request):
 
     #logging.info()
     g = list(Goods.objects.all())
-    r = list(Applications.objects.all())
+    r = list(Applications_get.objects.all())
     n = []
     for el in r:
         if request.user.username == el.username:
             n.append(el)
     if request.method == 'POST':
 
-        form = AddPostFormR(request.POST or None, user=request.user)
+        form = AddPostForm_get(request.POST or None, user=request.user)
         if form.is_valid():
             try:
                 item = int(form.data['Request'])
@@ -62,8 +62,8 @@ def ApplicationsForm(request):
                     rented_counts.append(el.rented_count)
                     counts.append(el.count)
                 if int(form.data['Request_count']) <= (counts[item-1] - rented_counts[item-1]):
-                    Applications.objects.create(**form.cleaned_data)
-                    return  redirect('application')
+                    Applications_get.objects.create(**form.cleaned_data)
+                    return  redirect('application-get')
 
                 else:
                     error = 'Убедитесь, что инвентаря достаточно'
@@ -71,12 +71,34 @@ def ApplicationsForm(request):
             except:
                 form.add_error(None,'Ошибка')
     else:
-        form=AddPostFormR(user=request.user)
+        form=AddPostForm_get(user=request.user)
 
 
 
     return render(request, 'main/Application.html' , {'form': form ,'n' : n,'g' : g})
 
+def ApplicationsForm2(request):
+
+    #logging.info()
+    g = list(Goods.objects.all())
+    r = list(Applications_repair.objects.all())
+    n = []
+    for el in r:
+        if request.user.username == el.username:
+            n.append(el)
+    if request.method == 'POST':
+
+        form = AddPostForm_repair(request.POST or None, user=request.user)
+        if form.is_valid():
+            try:
+                Applications_repair.objects.create(**form.cleaned_data)
+                return  redirect('application-repair')
+            except:
+                form.add_error(None,'Ошибка')
+    else:
+        form=AddPostForm_repair(user=request.user)
+
+    return render(request, 'main/Application2.html' , {'form': form,'n' : n})
 def page(request):
     Items = list(Goods.objects.all())
     for el in Items:
@@ -121,18 +143,23 @@ def logout_user(request):
 
 # /add-purchase-plan/
 def add_purchase_plan(request):
-    if request.method == "POST":
-        form = PurchasePlanForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('add_purchase_plan')
+    if request.user.is_superuser:
+        if request.method == "POST":
+            form = PurchasePlanForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('add_purchase_plan')
+        else:
+            form = PurchasePlanForm()
+        return render(request, 'admin/add_purchase_plan.html', {'form': form})
     else:
-        form = PurchasePlanForm()
-    return render(request, 'admin/add_purchase_plan.html', {'form': form})
-
+        return render(request, 'admin/Error.html')
 
 # /purchase-plan-list/
 def purchase_plan_list(request):
-    # Получаем все записи из модели PurchasePlan
-    plans = PurchasePlan.objects.select_related('item', 'supplier').all()
-    return render(request, 'admin/purchase_plan_list.html', {'plans': plans})
+    if request.user.is_superuser:
+        # Получаем все записи из модели PurchasePlan
+        plans = PurchasePlan.objects.select_related('item', 'supplier').all()
+        return render(request, 'admin/purchase_plan_list.html', {'plans': plans})
+    else:
+        return render(request, 'admin/Error.html')

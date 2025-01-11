@@ -5,7 +5,8 @@ from django.contrib import admin
 
 urlpatterns = [
     path('', views.page, name="main"),
-    path('application', views.ApplicationsForm, name='application'),
+    path('application-get', views.ApplicationsForm, name='application-get'),
+    path('application-repair', views.ApplicationsForm2, name='application-repair'),
     path('register', RegisterUser.as_view(), name='register'),
     path('login', LoginUser.as_view(), name="login"),
     path('logout', logout_user, name="logout"),

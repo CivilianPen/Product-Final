@@ -12,18 +12,34 @@ class Goods(models.Model):
     rented_count = models.IntegerField('Взято',default=0)
     condition = models.CharField('Состояние',max_length=20, choices=state)
 
-
+    class Meta:
+        verbose_name = "Инвентарь"
+        verbose_name_plural  = "Инвентарь"
 
     def __str__(self):
         return self.goods
 
-class Applications(models.Model):
+class Applications_get(models.Model):
     state = {'На рассмотрении': 'На рассмотрении', 'Одобрено': 'Одобрено', 'Отказано': 'Отказано'}
-    username = models.CharField(max_length=100)
-    Request = models.ForeignKey('Goods' ,on_delete=models.PROTECT,null=True)
+    username = models.CharField('Имя',max_length=100)
+    Request = models.ForeignKey('Goods' ,on_delete=models.PROTECT,null=True,verbose_name='Предмет')
     Request_count = models.PositiveIntegerField('Количество',default=0,validators=[MinValueValidator(0), MaxValueValidator(100)])
     Status = models.CharField('Статус заявки',default='На рассмотрении', choices=state,max_length=100)
 
+    class Meta:
+        verbose_name = "Заявка на получение"
+        verbose_name_plural  = "Заявки на получение"
+
+class Applications_repair(models.Model):
+    state = {'На рассмотрении': 'На рассмотрении', 'Выполнено': 'Выполнено', 'Отказано': 'Отказано'}
+    username = models.CharField('Имя',max_length=100)
+    Request = models.ForeignKey('Goods' ,on_delete=models.PROTECT,null=True,verbose_name='Предмет')
+    Comment = models.CharField('Комментарий', max_length=150)
+    Status = models.CharField('Статус заявки',default='На рассмотрении', choices=state,max_length=100)
+
+    class Meta:
+        verbose_name = "Заявка на ремонт"
+        verbose_name_plural  = "Заявки на ремонт"
 
 class Users(models.Model):
     User = models.ForeignKey(
@@ -35,6 +51,9 @@ class Users(models.Model):
     Count = models.IntegerField('Количество',default=0,validators=[MinValueValidator(0), MaxValueValidator(100)])
     Plus = models.BooleanField(default=False,editable=False)
 
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural  = "Пользователи"
 
 class Supplier(models.Model):
     name = models.CharField(max_length=255, unique=True, verbose_name="Поставщик")

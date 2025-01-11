@@ -1,21 +1,25 @@
 {% extends 'main/layout.html' %}
 
 {% block title %}
-    Add Plan
+    Добавить в план закупки
 {% endblock %}
 
 {% block script %}
-    <title>Добавить план закупки</title>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 {% endblock %}
 
 {% block content %}
-    <h1>Добавить план закупки</h1>
-    <form method="post">
+    <a href="{% url 'console' %}" class = 'btn4'> Назад </a>
+    <h1>Добавить в план закупки</h1>
+    <div class="form_admin">
+        <form method="post" class="form_content">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Добавить</button>
-    </form>
+        <button type="submit" class = 'btn2'>Добавить</button>
+        </form>
+    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>

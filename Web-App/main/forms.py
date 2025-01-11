@@ -8,22 +8,31 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('main')
 
-class AddPostFormR(forms.Form):
+class AddPostForm_get(forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
-        super(AddPostFormR, self).__init__(*args, **kwargs)
+        super(AddPostForm_get, self).__init__(*args, **kwargs)
         if self.user:
             # Do something with the user, such as pre-populate a field
             self.fields['username'].initial = self.user.username
 
     username = forms.Field(disabled=True)
-    C =(Goods.objects.values_list('count'))
-    N = (Goods.objects.values_list('goods'))
-
-
     Request = forms.ModelChoiceField(Goods.objects.all())
     Request_count = forms.IntegerField(validators=[MinValueValidator(1)])
+
+class AddPostForm_repair(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(AddPostForm_repair, self).__init__(*args, **kwargs)
+        if self.user:
+            # Do something with the user, such as pre-populate a field
+            self.fields['username'].initial = self.user.username
+
+    username = forms.Field(disabled=True)
+    Request = forms.ModelChoiceField(Goods.objects.all())
+    Comment = forms.CharField(max_length=150)
 
 
 class AddPostForm(forms.Form):

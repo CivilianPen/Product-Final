@@ -9,12 +9,17 @@ class GoodsAdmin(admin.ModelAdmin):
     list_editable = ['goods','count','rented_count','condition']
     list_display_links = None
 
-@admin.register(Applications)
+@admin.register(Applications_get)
 class ApplicationsAdmin(admin.ModelAdmin):
     list_display = ['username','Request','Request_count','Status']
     list_editable = ['Request','Request_count','Status']
     list_display_links = None
 
+@admin.register(Applications_repair)
+class ApplicationsAdmin(admin.ModelAdmin):
+    list_display = ['username','Request','Comment','Status']
+    list_editable = ['Request','Comment','Status']
+    list_display_links = None
 
 @admin.register(Users)
 class UsersAdmin(admin.ModelAdmin):

@@ -67,6 +67,7 @@ a.logo:hover {
     font-size: 24px;
     float:right;
     color: #fff;
+    margin: -9px auto;
 }
 canvas {
     padding-left: 0;
@@ -167,7 +168,7 @@ color: #fff;
 width:115px;
 text-align: center;
 font-family: Arial, Helvetica, sans-serif;
-font-size: 24px;
+font-size: 19px;
 padding: 8px 16px;
 margin: 20px auto;
 text-decoration: none;
@@ -184,44 +185,47 @@ a.btn3:hover {
 background-color: rgb( 82, 164, 206 );
 }
 
+a.btn4{
+border-radius: 4px;
+-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
+-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
+box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
+color: #fff;
+display:block;
+width:400px;
+text-align: center;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 24px;
+padding: 8px 16px;
+margin: 20px auto;
+text-decoration: none;
+text-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+-webkit-transition: background-color 0.1s linear;
+-moz-transition: background-color 0.1s linear;
+-o-transition: background-color 0.1s linear;
+transition: background-color 0.1s linear;
+background-color: rgb( 27, 124, 173 );
+border: 1px solid rgb( 20, 91, 127 );
+}
+
+a.btn4:hover {
+background-color: rgb( 82, 164, 206 );
+}
+
 .form {
    width:100%;
 }
 
-.goods {
-  border-collapse: collapse;
-  border: 2px solid rgb(140 140 140);
-  font-size: 1.7rem;
-  letter-spacing: 1px;
-}
-
-.headTable {
-  background-color: rgb(228 240 245);
-}
-
-.TH,
-.TD {
-  border: 3px solid rgb(160 160 160);
-  padding: 8px 10px;
-}
 
 .td:last-of-type {
   text-align: center;
 }
 
-.bodyTable > TR:nth-of-type(even) {
-  background-color: rgb(237 238 242);
-}
-
-.TH {
-  text-align: right;
-  font-weight: bold;
-}
-
-.TD {
-  font-weight: normal;
-}
 .form_user {
+    display: grid;
+    place-items: center;
+}
+.form_admin {
     display: grid;
     place-items: center;
 }

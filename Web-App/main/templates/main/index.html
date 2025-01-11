@@ -1,28 +1,35 @@
 {% extends 'main/layout.html' %}
 
 {% block title %}
-    main
+    Главная
+{% endblock %}
+
+{% block script %}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 {% endblock %}
 
 {% block content %}
     {% if request.user.is_authenticated %}
 
-                <div class = 'Goods'>
+                <div class="container mt-5">
 
-                    <table class = 'goods'>
-                      <thead class = 'headTable'>
-                        <tr class = 'TR'>
-                          <th class = 'TH'>Название</th>
-                          <th class = 'TH'>Количество</th>
-                          <th class = 'TH'>Состояние</th>
+                    <table  class="table table-striped">
+                      <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Количество</th>
+                            <th>Состояние</th>
                         </tr>
                       </thead>
-                      <tbody class = 'bodyTable' >
+                      <tbody>
                       {% for el in Items %}
-                        <tr class = 'TR'>
-                          <th class = 'TH'><p><pre> {{el.goods| safe}}</pre></p></th>
-                          <td class = 'TD'><p><pre> {{el.count| safe}}</pre></p></td>
-                          <td class = 'TD'><p><pre> {{el.condition| safe}}</pre></p></td>
+                        <tr>
+                            <td> {{ forloop.counter }}</td>
+                            <td> {{el.goods}}</td>
+                            <td> {{el.count}}</td>
+                            <td> {{el.condition}}</td>
                         </tr>
                         {% endfor %}
                     </table>
