@@ -57,7 +57,7 @@ class PurchasePlanForm(forms.ModelForm):
         model = PurchasePlan
         fields = ['item', 'supplier', 'planned_price', 'count', 'planned_date']
         labels = {
-            'item': 'Товар',
+            'item': 'Предмет',
             'supplier': 'Поставщик',
             'planned_price': 'Планируемая цена',
             'count': "Количество",
@@ -72,4 +72,26 @@ class PurchasePlanForm(forms.ModelForm):
         supplier = cleaned_data.get("supplier")
         if not supplier:
             raise forms.ValidationError("Поставщик обязателен.")
+        return cleaned_data
+
+
+class EditGoodsForm(forms.ModelForm):
+    goods = forms.ModelChoiceField(
+        queryset=Goods.objects.all(),
+        label='Предмет',
+    )
+
+    class Meta:
+        model = Goods
+        fields = ['goods', 'condition', 'count']
+        labels = {
+            'condition': 'Состояние',
+            'count': "Количество",
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        item = cleaned_data.get("goods")
+        if not item:
+            raise forms.ValidationError("Выберите предмет")
         return cleaned_data

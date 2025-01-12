@@ -141,7 +141,7 @@ def logout_user(request):
     return redirect('login')
 
 
-# /add-purchase-plan/
+# console/add-purchase-plan/
 def add_purchase_plan(request):
     if request.user.is_superuser:
         if request.method == "POST":
@@ -155,11 +155,20 @@ def add_purchase_plan(request):
     else:
         return render(request, 'admin/Error.html')
 
-# /purchase-plan-list/
+# console/purchase-plan-list/
 def purchase_plan_list(request):
     if request.user.is_superuser:
         # Получаем все записи из модели PurchasePlan
         plans = PurchasePlan.objects.select_related('item', 'supplier').all()
         return render(request, 'admin/purchase_plan_list.html', {'plans': plans})
+    else:
+        return render(request, 'admin/Error.html')
+
+
+# console/edit-inventory
+def edit_inventory(request):
+    if request.user.is_superuser:
+        form = EditGoodsForm()
+        return render(request, 'admin/edit_inventory.html', {'form': form})
     else:
         return render(request, 'admin/Error.html')

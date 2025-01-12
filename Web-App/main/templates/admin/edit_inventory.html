@@ -1,0 +1,33 @@
+{% extends 'admin/admin-layout.html' %}
+
+{% block title %}
+    Редактирование инвентаря
+{% endblock %}
+
+{% block script %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="admin-form-edit-inventory">
+        <h1>Редактирование инвентаря</h1>
+        <div class="form_admin">
+            <form method="post" class="form_content">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class = 'btn2'>Изменить</button>
+            </form>
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
+        <script>
+            flatpickr('.flatpickr', {
+                enableTime: false, // Если нужно выбирать время
+                dateFormat: "Y-m-d", // Формат даты
+                locale: "ru" // Локализация
+            });
+        </script>
+    </div>
+{% endblock %}

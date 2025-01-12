@@ -13,4 +13,5 @@ urlpatterns = [
     path('console',views.AdminPage, name = 'console'),
     path('console/add-purchase-plan/', views.add_purchase_plan, name='add_purchase_plan'),
     path('console/purchase-plans/', views.purchase_plan_list, name='purchase_plan_list'),
+    path('console/edit-inventory/', views.edit_inventory, name='edit_inventory'),
 ]
