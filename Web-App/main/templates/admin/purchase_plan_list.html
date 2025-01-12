@@ -1,4 +1,4 @@
-{% extends 'main/layout.html' %}
+{% extends 'admin/admin-layout.html' %}
 
 {% block title %}
     План закупок
@@ -11,7 +11,6 @@
 {% endblock %}
 
 {% block content %}
-    <a href="{% url 'console' %}" class = 'btn4'> Назад </a>
     <div class="container mt-5">
         <h1 class="mb-4">План закупок</h1>
         {% if plans %}

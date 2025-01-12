@@ -1,14 +1,11 @@
-{% extends 'main/layout.html' %}
+{% extends 'admin/admin-layout.html' %}
 
 {% block title %}
     Админка
 {% endblock %}
 
 {% block content %}
-    <a href="" class = 'btn4'> Редактирование инвентаря </a>
-    <a href="{% url 'add_purchase_plan' %}" class = 'btn4'> Добавить план закупок </a>
-    <a href="{% url 'purchase_plan_list' %}" class = 'btn4'> Все планы закупок </a>
-    <a href="" class = 'btn4'> Заявки пользователей на получение инвентаря</a>
-    <a href="" class = 'btn4'> Заявки пользователей на ремонт или замену инвентаря </a>
-    <a href="" class = 'btn4'> Выдача инвентаря пользователям </a>
+    <div class="admin-hello">
+        <h4>Панель администратора</h4>
+    </div>
 {% endblock %}

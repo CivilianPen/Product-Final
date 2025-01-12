@@ -1,4 +1,4 @@
-{% extends 'main/layout.html' %}
+{% extends 'admin/admin-layout.html' %}
 
 {% block title %}
     Добавить в план закупки
@@ -10,24 +10,25 @@
 {% endblock %}
 
 {% block content %}
-    <a href="{% url 'console' %}" class = 'btn4'> Назад </a>
-    <h1>Добавить в план закупки</h1>
-    <div class="form_admin">
-        <form method="post" class="form_content">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class = 'btn2'>Добавить</button>
-        </form>
+    <div class="admin-form-add-plan">
+        <h1>Добавить в план закупки</h1>
+        <div class="form_admin">
+            <form method="post" class="form_content">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class = 'btn2'>Добавить</button>
+            </form>
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
+        <script>
+            flatpickr('.flatpickr', {
+                enableTime: false, // Если нужно выбирать время
+                dateFormat: "Y-m-d", // Формат даты
+                locale: "ru" // Локализация
+            });
+        </script>
     </div>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
-    <script>
-        flatpickr('.flatpickr', {
-            enableTime: false, // Если нужно выбирать время
-            dateFormat: "Y-m-d", // Формат даты
-            locale: "ru" // Локализация
-        });
-    </script>
 {% endblock %}
