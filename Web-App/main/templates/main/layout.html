@@ -6,6 +6,7 @@
     <title>{% block title  %} {% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'main/css/css.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/buttons.css' %}">
     <link rel=" icon" href="{% static 'main/img/favicon.ico' %}" type='image/x-icon' />
     {% block script %}
 
@@ -20,20 +21,25 @@
 
                 <div class = 'lower'>
 
-                    <a href="{% url 'main' %}" class = 'btn3'> Главная </a>
-                    <a href="{% url 'application-get' %}" class = 'btn3'> Заявка на получение инвентаря </a>
-                    <a href="{% url 'application-repair' %}" class = 'btn3'> Заявка на ремонт или замену инвентаря </a>
-                    {% if request.user.is_superuser %}
-                    <a href="{% url 'console' %}" class = 'btn3'> Админка </a>
-                    {% endif %}
-                {% if request.user.is_authenticated %}
-                    <li class="last"> {{user.username}} | <a href="{% url 'logout' %}" class="btn3">Выйти</a></li>
-                    {% else %}
-                    <li class="last"><a href="register" class="btn3"> Регистрация</a>  <a href="{% url 'login' %}" class="btn3"> Войти </a></li>
-                {% endif %}
+                    <div class="left-shortcuts">
+                        <a href="{% url 'main' %}" class = 'btn3'> Главная </a>
+                        <a href="{% url 'application-get' %}" class = 'btn3'> Заявка на получение инвентаря </a>
+                        <a href="{% url 'application-repair' %}" class = 'btn3'> Заявка на ремонт или замену инвентаря </a>
+                        {% if request.user.is_superuser %}
+                        <a href="{% url 'console' %}" class = 'btn3'> Админка </a>
+                        {% endif %}
+                    </div>
+                    <div class="right-shortcuts">
+                        {% if request.user.is_authenticated %}
+                            <li class="last"> {{user.username}} | <a href="{% url 'logout' %}" class="btn3">Выйти</a></li>
+                        {% else %}
+                            <li class="last"><a href="register" class="btn3"> Регистрация</a>  <a href="login" class="btn3"> Войти </a></li>
+                        {% endif %}
+                    </div>
+
+
 
                 </div>
-
         </div>
 
 
