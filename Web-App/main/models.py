@@ -6,18 +6,55 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Goods(models.Model):
-    state = {'новый':'новый','использованный':'использованный','сломанный': 'сломанный'}
-    goods = models.CharField('Название',max_length=30)
+    CONDITION_CHOICES = [
+        ('новый', 'новый'),
+        ('использованный', 'использованный'),
+        ('сломанный', 'сломанный'),
+    ]
+
+    goods = models.CharField('Название', max_length=30)
     count = models.IntegerField('Количество')
-    rented_count = models.IntegerField('Взято',default=0)
-    condition = models.CharField('Состояние',max_length=20, choices=state)
+    rented_count = models.IntegerField('Взято', default=0)
+    condition = models.CharField('Состояние', max_length=20, choices=CONDITION_CHOICES)
+    description = models.TextField('Описание', blank=True, null=True)
+    created_at = models.DateTimeField('Добавлено', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
     class Meta:
         verbose_name = "Инвентарь"
-        verbose_name_plural  = "Инвентарь"
+        verbose_name_plural = "Инвентарь"
 
     def __str__(self):
         return self.goods
+
+    def available_count(self):
+        """Возвращает количество доступных к использованию предметов."""
+        return self.count - self.rented_count
+
+    def is_available(self):
+        """Проверяет, есть ли доступные предметы."""
+        return self.available_count() > 0
+
+    def rent_item(self, quantity=1):
+        """
+        Уменьшает доступное количество предметов при аренде.
+        :param quantity: Количество предметов, которое нужно взять.
+        :return: True, если операция успешна; False, если недостаточно предметов.
+        """
+        if self.available_count() >= quantity:
+            self.rented_count += quantity
+            self.save()
+            return True
+        return False
+
+    def return_item(self, quantity=1):
+        """
+        Увеличивает доступное количество предметов при возврате.
+        :param quantity: Количество предметов, которое нужно вернуть.
+        """
+        if self.rented_count >= quantity:
+            self.rented_count -= quantity
+            self.save()
 
 class Applications_get(models.Model):
     state = {'На рассмотрении': 'На рассмотрении', 'Одобрено': 'Одобрено', 'Отказано': 'Отказано'}
