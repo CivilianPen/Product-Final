@@ -75,23 +75,14 @@ class PurchasePlanForm(forms.ModelForm):
         return cleaned_data
 
 
-class EditGoodsForm(forms.ModelForm):
-    goods = forms.ModelChoiceField(
-        queryset=Goods.objects.all(),
-        label='Предмет',
-    )
+class EditGoodsForm(forms.Form):
+    CONDITION_CHOICES = [
+        ('новый', 'новый'),
+        ('использованный', 'использованный'),
+        ('сломанный', 'сломанный'),
+    ]
+    goods = forms.CharField()
+    count = forms.IntegerField(validators=[MinValueValidator(1)])
+    condition = forms.ChoiceField(choices=CONDITION_CHOICES)
+    description = forms.CharField()
 
-    class Meta:
-        model = Goods
-        fields = ['goods', 'condition', 'count']
-        labels = {
-            'condition': 'Состояние',
-            'count': "Количество",
-        }
-
-    def clean(self):
-        cleaned_data = super().clean()
-        item = cleaned_data.get("goods")
-        if not item:
-            raise forms.ValidationError("Выберите предмет")
-        return cleaned_data

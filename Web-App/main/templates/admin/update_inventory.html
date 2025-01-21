@@ -1,0 +1,31 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Главная
+{% endblock %}
+
+{% block script %}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+{% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+            <div>
+                {% for el in g %}
+
+                            {{ forloop.counter }}
+                            {{el.goods}}
+                            {{el.count}}
+                            {{el.condition}}
+
+                {% endfor %}
+            </div>
+
+
+    {% else %}
+
+        <p class = 'enter_or_reg'>Войдите или зарегистрируйтесь</p>
+
+    {% endif %}
+{% endblock %}

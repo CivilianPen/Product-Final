@@ -3,7 +3,7 @@ from .models import  *
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from django.utils import timezone
 
 class Goods(models.Model):
     CONDITION_CHOICES = [
@@ -17,7 +17,7 @@ class Goods(models.Model):
     rented_count = models.IntegerField('Взято', default=0)
     condition = models.CharField('Состояние', max_length=20, choices=CONDITION_CHOICES)
     description = models.TextField('Описание', blank=True, null=True)
-    created_at = models.DateTimeField('Добавлено', auto_now_add=True)
+    created_at = models.DateTimeField('Добавлено', default=timezone.now)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
     class Meta:
@@ -27,6 +27,10 @@ class Goods(models.Model):
     def __str__(self):
         return self.goods
 
+    def get_absolute_url(self):
+        return reverse("Update_inventory", kwargs={"post_id": self.id})
+    def get_absolute_url_del(self):
+        return reverse("Delete_inventory", kwargs={"post_id": self.id})
     def available_count(self):
         """Возвращает количество доступных к использованию предметов."""
         return self.count - self.rented_count
@@ -66,6 +70,11 @@ class Applications_get(models.Model):
     class Meta:
         verbose_name = "Заявка на получение"
         verbose_name_plural  = "Заявки на получение"
+
+    def get_absolute_url(self):
+        return reverse("Update_application_get", kwargs={"post_id": self.id})
+    def get_absolute_url_del(self):
+        return reverse("Delete_application_get", kwargs={"post_id": self.id})
 
 class Applications_repair(models.Model):
     state = {'На рассмотрении': 'На рассмотрении', 'Выполнено': 'Выполнено', 'Отказано': 'Отказано'}

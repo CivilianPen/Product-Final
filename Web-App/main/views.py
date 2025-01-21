@@ -18,25 +18,7 @@ logger = logging.getLogger('main')
 
 def AdminPage(request):
     if request.user.is_superuser:
-        g = list(Goods.objects.all())
-        u = list(Users.objects.all())
-        U2 = []
-        for el in u:
-            U2.append(el.Rent)
 
-
-        for el2 in g:
-            for el in u:
-                if el2 == el.Rent and el.Plus == False:
-                    el2.rented_count += el.Count
-                    el.Plus = True
-                    el2.save()
-                    el.save()
-
-        for el2 in g:
-            if not (el2 in U2):
-                el2.rented_count = 0
-                el2.save()
 
         return render(request, 'admin/Admin.html')
     else:
@@ -47,6 +29,7 @@ def ApplicationsForm(request):
     g = list(Goods.objects.all())
     r = list(Applications_get.objects.all())
     n = []
+
     for el in r:
         if request.user.username == el.username:
             n.append(el)
@@ -55,13 +38,9 @@ def ApplicationsForm(request):
         form = AddPostForm_get(request.POST or None, user=request.user)
         if form.is_valid():
             try:
-                item = int(form.data['Request'])
-                rented_counts = []
-                counts = []
-                for el in g:
-                    rented_counts.append(el.rented_count)
-                    counts.append(el.count)
-                if int(form.data['Request_count']) <= (counts[item-1] - rented_counts[item-1]):
+                item = form.cleaned_data['Request']
+
+                if int(form.data['Request_count']) <= Goods.available_count(self=item):
                     Applications_get.objects.create(**form.cleaned_data)
                     return  redirect('application-get')
 
@@ -102,7 +81,7 @@ def ApplicationsForm2(request):
 def page(request):
     Items = list(Goods.objects.all())
     for el in Items:
-        el.count=el.count-el.rented_count
+        el.count=Goods.available_count(self=el)
     return render(request, 'main/index.html' , {'Items': Items})
 
 
@@ -168,7 +147,61 @@ def purchase_plan_list(request):
 # console/edit-inventory
 def edit_inventory(request):
     if request.user.is_superuser:
-        form = EditGoodsForm()
-        return render(request, 'admin/edit_inventory.html', {'form': form})
+        g = list(Goods.objects.all())
+
+        if request.method == "POST":
+            form = EditGoodsForm(request.POST)
+            if form.is_valid():
+                try:
+                    Goods.objects.create(**form.cleaned_data)
+                    return redirect('edit_inventory')
+
+                except:
+                    form.add_error(None, 'Ошибка')
+        else:
+            form = EditGoodsForm()
+
+        return render(request, 'admin/edit_inventory.html', {'form': form ,'g':g})
+    else:
+        return render(request, 'admin/Error.html')
+def Update_inventory(request,post_id):
+    if request.user.is_superuser:
+        g = list(Goods.objects.filter(pk=post_id))
+
+        return render(request, 'admin/update_inventory.html', {'g': g})
+    else:
+        return render(request, 'admin/Error.html')
+def Delete_inventory(request,post_id):
+    if request.user.is_superuser:
+        g = (Goods.objects.filter(pk=post_id))
+        a = list(Applications_get.objects.all())
+        #удаление заявок если в них есть инвентарь , который требуется удалить
+        for i in g:
+            for el in a:
+                if (str(el.Request) == str(i.goods)):
+                    el.delete()
+
+        g.delete()
+        return redirect('edit_inventory')
+    else:
+        return render(request, 'admin/Error.html')
+
+def Request_for_receipt_inventory(request):
+    if request.user.is_superuser:
+        a = list(Applications_get.objects.all())
+        return render(request, 'admin/request_for_receipt.html', {'a': a})
+    else:
+        return render(request, 'admin/Error.html')
+def Update_Request_for_receipt_inventory(request,post_id):
+    if request.user.is_superuser:
+        a = list(Applications_get.objects.filter(pk=post_id))
+        return render(request, 'admin/update_request_for_receipt.html', {'a': a})
+    else:
+        return render(request, 'admin/Error.html')
+def Delete_Request_for_receipt_inventory(request,post_id):
+    if request.user.is_superuser:
+        a = (Applications_get.objects.filter(pk=post_id))
+        a.delete()
+        return redirect('Request_for_receipt_inventory')
     else:
         return render(request, 'admin/Error.html')

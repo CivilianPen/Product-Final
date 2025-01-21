@@ -15,8 +15,35 @@
             <form method="post" class="form_content">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class = 'btn2'>Изменить</button>
+            <button type="submit" class = 'btn2'>Добавить</button>
             </form>
+        </div>
+        <div class="container mt-5">
+
+                    <table  class="table table-striped">
+                      <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Количество</th>
+                            <th>Состояние</th>
+                            <th>Изменить</th>
+                            <th>Удалить</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for el in g %}
+                        <tr>
+                            <td> {{ forloop.counter }}</td>
+                            <td> {{el.goods}}</td>
+                            <td> {{el.count}}</td>
+                            <td> {{el.condition}}</td>
+                            <td><a class="btn_r" href="{{el.get_absolute_url}}">Изменить</a></td>
+                            <td><a class="btn_r" href="{{el.get_absolute_url_del}}">Удалить</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+
         </div>
 
 

@@ -14,4 +14,9 @@ urlpatterns = [
     path('console/add-purchase-plan/', views.add_purchase_plan, name='add_purchase_plan'),
     path('console/purchase-plans/', views.purchase_plan_list, name='purchase_plan_list'),
     path('console/edit-inventory/', views.edit_inventory, name='edit_inventory'),
+    path('console/edit-inventory/<int:post_id>/', views.Update_inventory, name="Update_inventory"),
+    path('console/delete-inventory/<int:post_id>/', views.Delete_inventory, name="Delete_inventory"),
+    path('console/request-for_receipt-inventory/', views.Request_for_receipt_inventory, name="Request_for_receipt_inventory"),
+    path('console/request-for_receipt-inventory/<int:post_id>/', views.Update_Request_for_receipt_inventory, name="Update_application_get"),
+    path('console/request-for_receipt-inventory_delete/<int:post_id>/', views.Delete_Request_for_receipt_inventory, name="Delete_application_get"),
 ]
