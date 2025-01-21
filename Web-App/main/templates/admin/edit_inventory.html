@@ -6,6 +6,7 @@
 
 {% block script %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 {% endblock %}
 
 {% block content %}
@@ -39,10 +40,23 @@
                             <td> {{el.count}}</td>
                             <td> {{el.condition}}</td>
                             <td><a class="btn_r" href="{{el.get_absolute_url}}">Изменить</a></td>
-                            <td><a class="btn_r" href="{{el.get_absolute_url_del}}">Удалить</a></td>
+                            <td><button class="btn_r" href="{{el.get_absolute_url_del}}" onclick="confirm_delete();">Удалить</button></td>
                         </tr>
                         {% endfor %}
                     </table>
+
+                    <script>
+                        document.getElementsByClassName('btn_r').onclick = confirm_delete;
+                        function confirm_delete(){
+                            var r = confirm("Вы действительно хотите безвозвратно удалить эти данные?");
+                            if (r == true) {
+                            {% for el in g %}
+                                window.location.href="{{ el.get_absolute_url_del }}"
+                            {% endfor %}
+                            }
+                        }
+
+                    </script>
 
         </div>
 
@@ -56,5 +70,6 @@
                 locale: "ru" // Локализация
             });
         </script>
+
     </div>
 {% endblock %}
