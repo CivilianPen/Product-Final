@@ -16,7 +16,7 @@ class Goods(models.Model):
     ]
 
     goods = models.CharField('Название', max_length=30)
-    count = models.IntegerField('Количество', default=0)
+    count = models.IntegerField('Количество', default=1)
     rented_count = models.IntegerField('Взято', default=0)
     condition = models.CharField('Состояние', max_length=20, choices=CONDITION_CHOICES)
     description = models.TextField('Описание', blank=True, null=True)
