@@ -76,6 +76,8 @@ class Applications_get(models.Model):
     def get_absolute_url_del(self):
         return reverse("Delete_application_get", kwargs={"post_id": self.id})
 
+
+
 class Applications_repair(models.Model):
     state = {'На рассмотрении': 'На рассмотрении', 'Выполнено': 'Выполнено', 'Отказано': 'Отказано'}
     username = models.CharField('Имя',max_length=100)

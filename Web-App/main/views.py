@@ -24,15 +24,14 @@ def AdminPage(request):
     else:
         return render(request, 'admin/Error.html')
 def ApplicationsForm(request):
-
+    '''Форма заявки на получение'''
     #logging.info()
     g = list(Goods.objects.all())
     r = list(Applications_get.objects.all())
-    n = []
 
-    for el in r:
-        if request.user.username == el.username:
-            n.append(el)
+    user_name = User.objects.get(username=request.user)
+    n = Applications_get.objects.filter(username=user_name)
+
     if request.method == 'POST':
 
         form = AddPostForm_get(request.POST or None, user=request.user)
@@ -57,7 +56,7 @@ def ApplicationsForm(request):
     return render(request, 'main/Application.html' , {'form': form ,'n' : n,'g' : g})
 
 def ApplicationsForm2(request):
-
+    '''Форма заявки на ремонт'''
     #logging.info()
     g = list(Goods.objects.all())
     r = list(Applications_repair.objects.all())
@@ -79,49 +78,14 @@ def ApplicationsForm2(request):
 
     return render(request, 'main/Application2.html' , {'form': form,'n' : n})
 def page(request):
+    ''' Главная страница (просмотр инвентаря)'''
     Items = list(Goods.objects.all())
     for el in Items:
         el.count=Goods.available_count(self=el)
     return render(request, 'main/index.html' , {'Items': Items})
-
-
-class RegisterUser(DataMixin, CreateView):
-    form_class = UserCreationForm
-    template_name = 'main/register.html'
-    success_url = reverse_lazy('login')
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Регистрация")
-        return dict(list(context.items()) + list(c_def.items()))
-
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return redirect('main')
-
-
-class LoginUser(DataMixin, LoginView):
-    form_class = LoginUserForm
-    template_name = 'main/login.html'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Авторизация")
-        return dict(list(context.items()) + list(c_def.items()))
-
-    def get_success_url(self):
-        return reverse_lazy('main')
-
-
-
-def logout_user(request):
-    logout(request)
-    return redirect('login')
-
-
 # console/add-purchase-plan/
 def add_purchase_plan(request):
+    ''' Добавления плана закупок'''
     if request.user.is_superuser:
         if request.method == "POST":
             form = PurchasePlanForm(request.POST)
@@ -136,16 +100,16 @@ def add_purchase_plan(request):
 
 # console/purchase-plan-list/
 def purchase_plan_list(request):
+    ''' Просмотр плана закупок'''
     if request.user.is_superuser:
         # Получаем все записи из модели PurchasePlan
         plans = PurchasePlan.objects.select_related('item', 'supplier').all()
         return render(request, 'admin/purchase_plan_list.html', {'plans': plans})
     else:
         return render(request, 'admin/Error.html')
-
-
 # console/edit-inventory
 def edit_inventory(request):
+    ''' Добавление + просмотр инвентаря'''
     if request.user.is_superuser:
         g = list(Goods.objects.all())
 
@@ -165,6 +129,7 @@ def edit_inventory(request):
     else:
         return render(request, 'admin/Error.html')
 def Update_inventory(request,post_id):
+    '''Изменение инвентаря'''
     if request.user.is_superuser:
         g = list(Goods.objects.filter(pk=post_id))
 
@@ -172,6 +137,7 @@ def Update_inventory(request,post_id):
     else:
         return render(request, 'admin/Error.html')
 def Delete_inventory(request,post_id):
+    ''' Удаление инвентаря'''
     if request.user.is_superuser:
         g = (Goods.objects.filter(pk=post_id))
         a = list(Applications_get.objects.all())
@@ -185,23 +151,56 @@ def Delete_inventory(request,post_id):
         return redirect('edit_inventory')
     else:
         return render(request, 'admin/Error.html')
-
 def Request_for_receipt_inventory(request):
+    ''' Посмотр заявок на получение'''
     if request.user.is_superuser:
         a = list(Applications_get.objects.all())
         return render(request, 'admin/request_for_receipt.html', {'a': a})
     else:
         return render(request, 'admin/Error.html')
 def Update_Request_for_receipt_inventory(request,post_id):
+    '''Изменение заявок на получение'''
     if request.user.is_superuser:
         a = list(Applications_get.objects.filter(pk=post_id))
         return render(request, 'admin/update_request_for_receipt.html', {'a': a})
     else:
         return render(request, 'admin/Error.html')
 def Delete_Request_for_receipt_inventory(request,post_id):
-    if request.user.is_superuser:
+     '''Удаление заявок на получение'''
+     if request.user.is_superuser:
         a = (Applications_get.objects.filter(pk=post_id))
         a.delete()
         return redirect('Request_for_receipt_inventory')
-    else:
+     else:
         return render(request, 'admin/Error.html')
+
+
+
+class RegisterUser(DataMixin, CreateView):
+    form_class = UserCreationForm
+    template_name = 'main/register.html'
+    success_url = reverse_lazy('login')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Регистрация")
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('main')
+class LoginUser(DataMixin, LoginView):
+    form_class = LoginUserForm
+    template_name = 'main/login.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Авторизация")
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def get_success_url(self):
+        return reverse_lazy('main')
+def logout_user(request):
+    logout(request)
+    return redirect('login')
