@@ -1,0 +1,50 @@
+{% extends 'admin/admin-layout.html' %}
+
+{% block title %}
+    Главная
+{% endblock %}
+
+{% block script %}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+{% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+
+            <div class="container mt-5">
+
+                    <table  class="table table-striped">
+                      <thead>
+                        <tr>
+                            <th>Имя</th>
+                            <th>Предмет</th>
+                            <th>Дейстие</th>
+                            <th>Комментарий</th>
+                            <th>Статус</th>
+                            <th>Удалить</th>
+                            <th>Отклонить</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for el in a %}
+                        <tr>
+                            <td> {{el.username}}</td>
+                            <td> {{el.Request}}</td>
+                            <td> {{el.Aim }} </td>
+                            <td> {{el.Comment}}</td>
+                            <td> {{el.Status}}</td>
+                            <td><a class="btn_r" href="{{el.get_absolute_url}}">Одобрить</a></td>
+                            <td><a class="btn_r" href="{{el.get_absolute_url}}">Отклонить</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+        </div>
+
+
+    {% else %}
+
+        <p class = 'enter_or_reg'>Войдите или зарегистрируйтесь</p>
+
+    {% endif %}
+{% endblock %}

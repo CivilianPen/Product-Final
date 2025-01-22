@@ -100,6 +100,8 @@ class Applications_repair(models.Model):
         verbose_name = "Заявка на ремонт"
         verbose_name_plural  = "Заявки на ремонт"
 
+    def get_absolute_url(self):
+        return reverse("Update_Request_for_repair_inventory", kwargs={"post_id": self.id})
     def get_absolute_url_del(self):
         return reverse("Delete_Request_for_repair_inventory", kwargs={"post_id": self.id})
 class Users(models.Model):

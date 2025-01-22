@@ -23,6 +23,7 @@
                             <th>Дейстие</th>
                             <th>Комментарий</th>
                             <th>Статус</th>
+                            <th>Изменить</th>
                             <th>Удалить</th>
                         </tr>
                       </thead>
@@ -35,6 +36,7 @@
                             <td> {{el.Aim }} </td>
                             <td> {{el.Comment}}</td>
                             <td> {{el.Status}}</td>
+                            <td><a class="btn_r" href="{{el.get_absolute_url}}">Изменить</a></td>
                             <td><button class="btn_r" href="{{ el.get_absolute_url_del }}" onclick="confirm_delete();">Удалить</button></td>
                         </tr>
                         {% endfor %}

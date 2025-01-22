@@ -167,6 +167,14 @@ def Update_Request_for_receipt_inventory(request,post_id):
         return render(request, 'admin/update_request_for_receipt.html', {'a': a})
     else:
         return render(request, 'admin/Error.html')
+def Delete_Request_for_receipt_inventory(request,post_id):
+     '''Удаление заявок на получение'''
+     if request.user.is_superuser:
+        a = (Applications_get.objects.filter(pk=post_id))
+        a.delete()
+        return redirect('Request_for_receipt_inventory')
+     else:
+        return render(request, 'admin/Error.html')
 def Give_inventory(request,post_id):
     if request.user.is_superuser:
         a = (Applications_get.objects.filter(pk=post_id))
@@ -188,20 +196,22 @@ def Return_inventory(request, post_id):
         return redirect('Request_for_receipt_inventory')
     else:
         return render(request, 'admin/Error.html')
-def Delete_Request_for_receipt_inventory(request,post_id):
-     '''Удаление заявок на получение'''
-     if request.user.is_superuser:
-        a = (Applications_get.objects.filter(pk=post_id))
-        a.delete()
-        return redirect('Request_for_receipt_inventory')
-     else:
-        return render(request, 'admin/Error.html')
+
 def Request_for_repair_inventory(request):
     '''Просмотр заявок на ремонт'''
     if request.user.is_superuser:
         a = (Applications_repair.objects.all())
 
         return render(request, 'admin/request_for_repair.html', {'a': a})
+    else:
+        return render(request, 'admin/Error.html')
+
+def Update_Request_for_repair_inventory(request,post_id):
+    '''Изменение заявок на ремонт или замену'''
+    if request.user.is_superuser:
+        a = (Applications_repair.objects.filter(pk=post_id))
+
+        return render(request, 'admin/update_request_for_repair.html', {'a': a})
     else:
         return render(request, 'admin/Error.html')
 def Delete_Request_for_repair_inventory(request,post_id):
