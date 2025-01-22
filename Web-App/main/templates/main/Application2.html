@@ -15,7 +15,9 @@
                         <div>{{ form.User.errors}}</div>
                         <p><label for="{{ form.Request.id_for_label }}"> Предмет:</label> {{ form.Request}}</p>
                         <div>{{ form.Request.errors}}</div>
-                        <p><label for="{{ form.Comment.id_for_label }}"> Комментарий:</label> {{ form.Comment}}</p>
+                        <p><label for="{{ form.Request.id_for_label }}"> Действие:</label> {{ form.Aim }}</p>
+                        <div>{{ form.Request.errors}}</div>
+                        <p><label for="{{ form.Comment.id_for_label }}"> Комментарий:</label> {{ form.Comment }}</p>
                         <div>{{ form.Request_count.errors}}</div>
                         <div>
                             <ul class="errorlist">
@@ -35,7 +37,8 @@
 
                         <div class = 'review'>
                             <p><pre >Предмет: {{el.Request}} </pre></p>
-                            <p><pre >Количество: {{el.Comment}} </pre></p>
+                            <p><pre >Действие: {{el.Aim}} </pre></p>
+                            <p><pre >Комментарий: {{el.Comment}} </pre></p>
                             <p><pre >Статус: {{el.Status}} </pre></p>
                         </div>
 

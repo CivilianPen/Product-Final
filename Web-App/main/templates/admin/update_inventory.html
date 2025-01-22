@@ -1,4 +1,4 @@
-{% extends 'main/layout.html' %}
+{% extends 'admin/admin-layout.html' %}
 
 {% block title %}
     Главная
@@ -11,10 +11,10 @@
 
 {% block content %}
     {% if request.user.is_authenticated %}
+
             <div>
                 {% for el in g %}
 
-                            {{ forloop.counter }}
                             {{el.goods}}
                             {{el.count}}
                             {{el.condition}}

@@ -1,9 +1,12 @@
 from django.db import models
-from .models import  *
+from .models import *
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
+from django.utils.crypto import *
+import random
+import string
 
 class Goods(models.Model):
     CONDITION_CHOICES = [
@@ -13,12 +16,13 @@ class Goods(models.Model):
     ]
 
     goods = models.CharField('Название', max_length=30)
-    count = models.IntegerField('Количество')
+    count = models.IntegerField('Количество', default=0)
     rented_count = models.IntegerField('Взято', default=0)
     condition = models.CharField('Состояние', max_length=20, choices=CONDITION_CHOICES)
     description = models.TextField('Описание', blank=True, null=True)
     created_at = models.DateTimeField('Добавлено', default=timezone.now)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
 
     class Meta:
         verbose_name = "Инвентарь"
@@ -60,6 +64,7 @@ class Goods(models.Model):
             self.rented_count -= quantity
             self.save()
 
+
 class Applications_get(models.Model):
     state = {'На рассмотрении': 'На рассмотрении', 'Одобрено': 'Одобрено', 'Отказано': 'Отказано'}
     username = models.CharField('Имя',max_length=100)
@@ -76,12 +81,18 @@ class Applications_get(models.Model):
     def get_absolute_url_del(self):
         return reverse("Delete_application_get", kwargs={"post_id": self.id})
 
+    def get_absolute_url_give(self):
+        return reverse("Give_inventory", kwargs={"post_id": self.id})
+    def get_absolute_url_return(self):
+        return reverse("Return_inventory", kwargs={"post_id": self.id})
 
 
 class Applications_repair(models.Model):
+    CHOICES = {'Ремонт': 'Ремонт', 'Замена': 'Замена'}
     state = {'На рассмотрении': 'На рассмотрении', 'Выполнено': 'Выполнено', 'Отказано': 'Отказано'}
     username = models.CharField('Имя',max_length=100)
     Request = models.ForeignKey('Goods' ,on_delete=models.PROTECT,null=True,verbose_name='Предмет')
+    Aim = models.CharField('Действие',choices=CHOICES,default='Ремонт',max_length=100)
     Comment = models.CharField('Комментарий', max_length=150)
     Status = models.CharField('Статус заявки',default='На рассмотрении', choices=state,max_length=100)
 
@@ -89,6 +100,8 @@ class Applications_repair(models.Model):
         verbose_name = "Заявка на ремонт"
         verbose_name_plural  = "Заявки на ремонт"
 
+    def get_absolute_url_del(self):
+        return reverse("Delete_Request_for_repair_inventory", kwargs={"post_id": self.id})
 class Users(models.Model):
     User = models.ForeignKey(
         get_user_model(),

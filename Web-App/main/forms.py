@@ -22,7 +22,7 @@ class AddPostForm_get(forms.Form):
     Request_count = forms.IntegerField(validators=[MinValueValidator(1)])
 
 class AddPostForm_repair(forms.Form):
-
+    CHOICES = {'Ремонт':'Ремонт','Замена':'Замена'}
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(AddPostForm_repair, self).__init__(*args, **kwargs)
@@ -32,6 +32,7 @@ class AddPostForm_repair(forms.Form):
 
     username = forms.Field(disabled=True)
     Request = forms.ModelChoiceField(Goods.objects.all())
+    Aim = forms.ChoiceField(choices=CHOICES)
     Comment = forms.CharField(max_length=150)
 
 
