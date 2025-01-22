@@ -67,9 +67,9 @@ class Goods(models.Model):
 
 class Applications_get(models.Model):
     state = {'На рассмотрении': 'На рассмотрении', 'Одобрено': 'Одобрено', 'Отказано': 'Отказано'}
-    username = models.CharField('Имя',max_length=100)
+    username = models.CharField('Имя',max_length=100,editable=False)
     Request = models.ForeignKey('Goods' ,on_delete=models.PROTECT,null=True,verbose_name='Предмет')
-    Request_count = models.PositiveIntegerField('Количество',default=0,validators=[MinValueValidator(0), MaxValueValidator(100)])
+    Request_count = models.PositiveIntegerField('Количество',default=0,validators=[MinValueValidator(1)])
     Status = models.CharField('Статус заявки',default='На рассмотрении', choices=state,max_length=100)
 
     class Meta:
@@ -81,16 +81,10 @@ class Applications_get(models.Model):
     def get_absolute_url_del(self):
         return reverse("Delete_application_get", kwargs={"post_id": self.id})
 
-    def get_absolute_url_give(self):
-        return reverse("Give_inventory", kwargs={"post_id": self.id})
-    def get_absolute_url_return(self):
-        return reverse("Return_inventory", kwargs={"post_id": self.id})
-
-
 class Applications_repair(models.Model):
     CHOICES = {'Ремонт': 'Ремонт', 'Замена': 'Замена'}
     state = {'На рассмотрении': 'На рассмотрении', 'Выполнено': 'Выполнено', 'Отказано': 'Отказано'}
-    username = models.CharField('Имя',max_length=100)
+    username = models.CharField('Имя',max_length=100,editable=False)
     Request = models.ForeignKey('Goods' ,on_delete=models.PROTECT,null=True,verbose_name='Предмет')
     Aim = models.CharField('Действие',choices=CHOICES,default='Ремонт',max_length=100)
     Comment = models.CharField('Комментарий', max_length=150)
@@ -104,6 +98,7 @@ class Applications_repair(models.Model):
         return reverse("Update_Request_for_repair_inventory", kwargs={"post_id": self.id})
     def get_absolute_url_del(self):
         return reverse("Delete_Request_for_repair_inventory", kwargs={"post_id": self.id})
+
 class Users(models.Model):
     User = models.ForeignKey(
         get_user_model(),

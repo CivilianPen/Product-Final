@@ -12,33 +12,13 @@
 {% block content %}
     {% if request.user.is_authenticated %}
 
-            <div class="container mt-5">
-
-                    <table  class="table table-striped">
-                      <thead>
-                        <tr>
-
-                            <th>Имя</th>
-                            <th>Предмет</th>
-                            <th>Количество</th>
-                            <th>Статус</th>
-                            <th>Одобрить</th>
-                            <th>Отклонить</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      {% for el in a %}
-                        <tr>
-                            <td> {{el.username}}</td>
-                            <td> {{el.Request}}</td>
-                            <td> {{el.Request_count}}</td>
-                            <td> {{el.Status}}</td>
-                            <td><a class="btn_r" href="{{el.get_absolute_url_give}}">Одобрить</a></td>
-                            <td><a class="btn_r" href="{{el.get_absolute_url_return}}">Отклонить</a></td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-        </div>
+            <div class="form_admin">
+            <form method="post" class="form_content">
+                {% csrf_token %}
+                {{ form.as_p }}
+            <button type="submit" class = 'btn2'>Изменить</button>
+            </form>
+         </div>
 
 
     {% else %}

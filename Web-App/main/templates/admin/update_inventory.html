@@ -12,15 +12,13 @@
 {% block content %}
     {% if request.user.is_authenticated %}
 
-            <div>
-                {% for el in g %}
-
-                            {{el.goods}}
-                            {{el.count}}
-                            {{el.condition}}
-
-                {% endfor %}
-            </div>
+            <div class="form_admin">
+            <form method="post" class="form_content">
+                {% csrf_token %}
+                {{ form.as_p }}
+            <button type="submit" class = 'btn2'>Изменить</button>
+            </form>
+         </div>
 
 
     {% else %}

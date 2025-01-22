@@ -4,6 +4,7 @@ from .models import *
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils import timezone
 import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('main')
@@ -76,14 +77,16 @@ class PurchasePlanForm(forms.ModelForm):
         return cleaned_data
 
 
-class EditGoodsForm(forms.Form):
-    CONDITION_CHOICES = [
-        ('новый', 'новый'),
-        ('использованный', 'использованный'),
-        ('сломанный', 'сломанный'),
-    ]
-    goods = forms.CharField()
-    count = forms.IntegerField(validators=[MinValueValidator(1)])
-    condition = forms.ChoiceField(choices=CONDITION_CHOICES)
-    description = forms.CharField()
-
+class UpdateGoodsForm(forms.ModelForm):
+    class Meta:
+        model = Goods
+        fields = ('goods', 'count', 'condition', 'description')
+        labels = {
+            'goods': 'Предмет',
+            'count': 'Количество',
+            'condition': 'Состояние',
+            'description': 'Описание',
+        }
+        widgets = {
+            'description': forms.TextInput()
+        }

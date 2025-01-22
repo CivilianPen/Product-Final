@@ -115,16 +115,12 @@ def edit_inventory(request):
         g = list(Goods.objects.all())
 
         if request.method == "POST":
-            form = EditGoodsForm(request.POST)
+            form = UpdateGoodsForm(request.POST or None)
             if form.is_valid():
-                try:
-                    Goods.objects.create(**form.cleaned_data)
-                    return redirect('edit_inventory')
-
-                except:
-                    form.add_error(None, 'Ошибка')
+                form.save()
+                return redirect('edit_inventory')
         else:
-            form = EditGoodsForm()
+            form = UpdateGoodsForm()
 
         return render(request, 'admin/edit_inventory.html', {'form': form ,'g':g})
     else:
@@ -132,9 +128,15 @@ def edit_inventory(request):
 def Update_inventory(request,post_id):
     '''Изменение инвентаря'''
     if request.user.is_superuser:
-        g = list(Goods.objects.filter(pk=post_id))
+        g = (Goods.objects.get(pk=post_id))
 
-        return render(request, 'admin/update_inventory.html', {'g': g})
+        form = UpdateGoodsForm(request.POST or None, instance=g)
+        if form.is_valid():
+            form.save()
+            return redirect('edit_inventory')
+
+
+        return render(request, 'admin/update_inventory.html', {'form':form,'g': g})
     else:
         return render(request, 'admin/Error.html')
 def Delete_inventory(request,post_id):
@@ -162,9 +164,14 @@ def Request_for_receipt_inventory(request):
 def Update_Request_for_receipt_inventory(request,post_id):
     '''Изменение заявок на получение'''
     if request.user.is_superuser:
-        a = (Applications_get.objects.filter(pk=post_id))
+        a = (Applications_get.objects.get(pk=post_id))
 
-        return render(request, 'admin/update_request_for_receipt.html', {'a': a})
+        form = AddPostForm_get(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect('edit_inventory')
+
+        return render(request, 'admin/update_request_for_receipt.html', {'form':form,'a': a})
     else:
         return render(request, 'admin/Error.html')
 def Delete_Request_for_receipt_inventory(request,post_id):
@@ -174,27 +181,6 @@ def Delete_Request_for_receipt_inventory(request,post_id):
         a.delete()
         return redirect('Request_for_receipt_inventory')
      else:
-        return render(request, 'admin/Error.html')
-def Give_inventory(request,post_id):
-    if request.user.is_superuser:
-        a = (Applications_get.objects.filter(pk=post_id))
-
-        for el in a:
-            el.Status = el.state['Одобрено']
-            el.save()
-            g = Goods.objects.filter(goods=el.Request)
-            logging.info(g)
-        return redirect('Request_for_receipt_inventory')
-    else:
-        return render(request, 'admin/Error.html')
-def Return_inventory(request, post_id):
-    if request.user.is_superuser:
-        a = (Applications_get.objects.filter(pk=post_id))
-        for el in a:
-            el.Status = el.state['Отказано']
-            el.save()
-        return redirect('Request_for_receipt_inventory')
-    else:
         return render(request, 'admin/Error.html')
 
 def Request_for_repair_inventory(request):
@@ -209,9 +195,14 @@ def Request_for_repair_inventory(request):
 def Update_Request_for_repair_inventory(request,post_id):
     '''Изменение заявок на ремонт или замену'''
     if request.user.is_superuser:
-        a = (Applications_repair.objects.filter(pk=post_id))
+        a = (Applications_repair.objects.get(pk=post_id))
 
-        return render(request, 'admin/update_request_for_repair.html', {'a': a})
+        form = AddPostForm_get(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect('edit_inventory')
+
+        return render(request, 'admin/update_request_for_repair.html', {'form':form,'a': a})
     else:
         return render(request, 'admin/Error.html')
 def Delete_Request_for_repair_inventory(request,post_id):
@@ -222,7 +213,6 @@ def Delete_Request_for_repair_inventory(request,post_id):
         return redirect('Request_for_repair_inventory')
     else:
         return render(request, 'admin/Error.html')
-
 class RegisterUser(DataMixin, CreateView):
     form_class = UserCreationForm
     template_name = 'main/register.html'
