@@ -66,7 +66,7 @@ def ApplicationsForm2(request):
 
     if request.method == 'POST':
 
-        form = AddPostForm_repair(request.POST or None, user=request.user)
+        form = AddPostForm_repiar(request.POST or None, user=request.user)
         if form.is_valid():
             try:
                 Applications_repair.objects.create(**form.cleaned_data)
@@ -74,7 +74,7 @@ def ApplicationsForm2(request):
             except:
                 form.add_error(None,'Ошибка')
     else:
-        form=AddPostForm_repair(user=request.user)
+        form=AddPostForm_repiar(user=request.user)
 
     return render(request, 'main/Application2.html' , {'form': form,'n' : n})
 def page(request):
@@ -143,13 +143,6 @@ def Delete_inventory(request,post_id):
     ''' Удаление инвентаря'''
     if request.user.is_superuser:
         g = (Goods.objects.filter(pk=post_id))
-        a = list(Applications_get.objects.all())
-        #удаление заявок если в них есть инвентарь , который требуется удалить
-        for i in g:
-            for el in a:
-                if (str(el.Request) == str(i.goods)):
-                    el.delete()
-
         g.delete()
         return redirect('edit_inventory')
     else:
@@ -166,10 +159,10 @@ def Update_Request_for_receipt_inventory(request,post_id):
     if request.user.is_superuser:
         a = (Applications_get.objects.get(pk=post_id))
 
-        form = AddPostForm_get(request.POST or None)
+        form = Admin_AddPostForm_get(request.POST or None,instance=a)
         if form.is_valid():
             form.save()
-            return redirect('edit_inventory')
+            return redirect('Request_for_receipt_inventory')
 
         return render(request, 'admin/update_request_for_receipt.html', {'form':form,'a': a})
     else:
@@ -197,10 +190,10 @@ def Update_Request_for_repair_inventory(request,post_id):
     if request.user.is_superuser:
         a = (Applications_repair.objects.get(pk=post_id))
 
-        form = AddPostForm_get(request.POST or None)
+        form = Admin_AddPostForm_repiar(request.POST or None, instance=a)
         if form.is_valid():
             form.save()
-            return redirect('edit_inventory')
+            return redirect('Request_for_repair_inventory')
 
         return render(request, 'admin/update_request_for_repair.html', {'form':form,'a': a})
     else:

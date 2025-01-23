@@ -22,11 +22,27 @@ class AddPostForm_get(forms.Form):
     Request = forms.ModelChoiceField(Goods.objects.all())
     Request_count = forms.IntegerField(validators=[MinValueValidator(1)])
 
-class AddPostForm_repair(forms.Form):
+class Admin_AddPostForm_get(forms.ModelForm):
+    class Meta:
+        model = Applications_get
+        fields = ('username', 'Request', 'Request_count', 'Status')
+        labels = {
+            'username': 'Имя',
+            'Request': 'Предет',
+            'Request_count': 'Количество',
+            'Status': 'Статус',
+        }
+        widgets ={
+            'username': forms.TextInput(attrs={'readonly': 'True'}),
+            'Request': forms.TextInput(attrs={'readonly': 'True'}),
+            'Request_count': forms.TextInput(attrs={'readonly': 'True'}),
+        }
+
+class AddPostForm_repiar(forms.Form):
     CHOICES = {'Ремонт':'Ремонт','Замена':'Замена'}
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
-        super(AddPostForm_repair, self).__init__(*args, **kwargs)
+        super(AddPostForm_repiar, self).__init__(*args, **kwargs)
         if self.user:
             # Do something with the user, such as pre-populate a field
             self.fields['username'].initial = self.user.username
@@ -36,6 +52,23 @@ class AddPostForm_repair(forms.Form):
     Aim = forms.ChoiceField(choices=CHOICES)
     Comment = forms.CharField(max_length=150)
 
+class Admin_AddPostForm_repiar(forms.ModelForm):
+    class Meta:
+        model = Applications_repair
+        fields = ('username', 'Request', 'Aim','Comment','Status')
+        labels = {
+            'username': 'Имя',
+            'Request': 'Предмет',
+            'Aim': 'Действие',
+            'Comment': 'Комментарий',
+            'Status': 'Статус',
+        }
+        widgets ={
+            'username': forms.TextInput(attrs={'readonly': 'True'}),
+            'Request': forms.TextInput(attrs={'readonly': 'True'}),
+            'Aim': forms.TextInput(attrs={'readonly': 'True'}),
+            'Comment': forms.TextInput(attrs={'readonly': 'True'}),
+        }
 
 class AddPostForm(forms.Form):
     login = forms.CharField(max_length=255)
