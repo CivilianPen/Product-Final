@@ -123,3 +123,16 @@ class UpdateGoodsForm(forms.ModelForm):
         widgets = {
             'description': forms.TextInput()
         }
+
+class Form_Inventory_management(forms.ModelForm):
+    class Meta:
+        model = Users
+        fields = ('User', 'Rent', 'Count')
+        labels = {
+            'User': 'Имя',
+            'Rent': 'Предмет',
+            'Count': 'Количество',
+        }
+        widgets = {
+
+        }

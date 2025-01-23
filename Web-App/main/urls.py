@@ -11,8 +11,7 @@ urlpatterns = [
     path('login', LoginUser.as_view(), name="login"),
     path('logout', logout_user, name="logout"),
     path('console',views.AdminPage, name = 'console'),
-    path('console/add-purchase-plan/', views.add_purchase_plan, name='add_purchase_plan'),
-    path('console/purchase-plans/', views.purchase_plan_list, name='purchase_plan_list'),
+    path('console/purchase-plan/', views.purchase_plan, name='purchase_plan'),
     path('console/edit-inventory/', views.edit_inventory, name='edit_inventory'),
     path('console/update-inventory/<int:post_id>/', views.Update_inventory, name="Update_inventory"),
     path('console/delete-inventory/<int:post_id>/', views.Delete_inventory, name="Delete_inventory"),
@@ -22,6 +21,7 @@ urlpatterns = [
     path('console/request-for-repair-inventory/', views.Request_for_repair_inventory, name="Request_for_repair_inventory"),
     path('console/request-for-repair-inventory-delete/<int:post_id>/', views.Delete_Request_for_repair_inventory, name="Delete_Request_for_repair_inventory"),
     path('console/request-for-repair-inventory-update/<int:post_id>/', views.Update_Request_for_repair_inventory, name="Update_Request_for_repair_inventory"),
-
+    path('console/inventory-management/', views.Inventory_management, name="Inventory_management"),
+    path('console/inventory-management-delete/<int:post_id>/', views.Inventory_management_delete, name="Inventory_management_delete"),
 
 ]

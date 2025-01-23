@@ -85,30 +85,23 @@ def page(request):
 
     return render(request, 'main/index.html' , {'Items': Items})
 # console/add-purchase-plan/
-def add_purchase_plan(request):
+def purchase_plan(request):
     ''' Добавления плана закупок'''
     if request.user.is_superuser:
+        plans = PurchasePlan.objects.select_related('item', 'supplier').all()
         if request.method == "POST":
             form = PurchasePlanForm(request.POST)
             if form.is_valid():
                 form.save()
-                return redirect('add_purchase_plan')
+                return redirect('purchase_plan')
         else:
             form = PurchasePlanForm()
-        return render(request, 'admin/add_purchase_plan.html', {'form': form})
+        return render(request, 'admin/purchase_plan.html', {'form': form,'plans': plans})
     else:
         return render(request, 'admin/Error.html')
 
-# console/purchase-plan-list/
-def purchase_plan_list(request):
-    ''' Просмотр плана закупок'''
-    if request.user.is_superuser:
-        # Получаем все записи из модели PurchasePlan
-        plans = PurchasePlan.objects.select_related('item', 'supplier').all()
-        return render(request, 'admin/purchase_plan_list.html', {'plans': plans})
-    else:
-        return render(request, 'admin/Error.html')
-# console/edit-inventory
+# console/purchase-plan/
+
 def edit_inventory(request):
     ''' Добавление + просмотр инвентаря'''
     if request.user.is_superuser:
@@ -204,6 +197,38 @@ def Delete_Request_for_repair_inventory(request,post_id):
         a = (Applications_repair.objects.filter(pk=post_id))
         a.delete()
         return redirect('Request_for_repair_inventory')
+    else:
+        return render(request, 'admin/Error.html')
+
+def Inventory_management(request):
+    '''Управление инвентарем (выдача инветаря)'''
+    if request.user.is_superuser:
+        u = (Users.objects.all())
+        form = Form_Inventory_management(request.POST or None)
+        if form.is_valid():
+            item = form.cleaned_data['Rent']
+            count = form.cleaned_data['Count']
+            if int(count) <= Goods.available_count(self=item):
+                Goods.rent_item(self=item,quantity=count)
+                form.save()
+            else:
+                error = 'Убедитесь, что инвентаря достаточно'
+                return render(request, 'admin/Inventory_management.html', {'form': form, 'u': u, 'error': error})
+            return redirect('Inventory_management')
+
+        return render(request, 'admin/Inventory_management.html', {'form':form,'u': u})
+    else:
+        return render(request, 'admin/Error.html')
+def Inventory_management_delete(request,post_id):
+    '''Удаление инвентаря у пользователей'''
+    if request.user.is_superuser:
+        u = (Users.objects.filter(pk=post_id))
+        for el in u:
+            item = el.Rent
+            count = el.Count
+            Goods.return_item(self=item,quantity=count)
+        u.delete()
+        return redirect('Inventory_management')
     else:
         return render(request, 'admin/Error.html')
 class RegisterUser(DataMixin, CreateView):

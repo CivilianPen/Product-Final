@@ -45,10 +45,10 @@
 
             <div class="side-bar">
                 <a href="{% url 'edit_inventory' %}" class = 'btn4'> Редактирование инвентаря </a>
-                <a href="{% url 'add_purchase_plan' %}" class = 'btn4'> Добавить план закупок </a>
-                <a href="{% url 'purchase_plan_list' %}" class = 'btn4'> Все планы закупок </a>
+                <a href="{% url 'purchase_plan' %}" class = 'btn4'> План закупок </a>
                 <a href="{% url 'Request_for_receipt_inventory' %}" class = 'btn4'> Заявки пользователей на получение инвентаря</a>
                 <a href="{% url 'Request_for_repair_inventory' %}" class = 'btn4'> Заявки пользователей на ремонт или замену инвентаря </a>
+                <a href="{% url 'Inventory_management' %}" class = 'btn4'> Управление инвентарем </a>
             </div>
             <div class="right-content">
                 {% block content  %}

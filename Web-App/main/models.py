@@ -106,13 +106,15 @@ class Users(models.Model):
         related_name='scores',
     )
     Rent = models.ForeignKey('Goods', on_delete=models.PROTECT, null=True,blank=True)
-    Count = models.IntegerField('Количество',default=0,validators=[MinValueValidator(0), MaxValueValidator(100)])
+    Count = models.IntegerField('Количество',default=1,validators=[MinValueValidator(1)])
     Plus = models.BooleanField(default=False,editable=False)
 
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural  = "Пользователи"
 
+    def get_absolute_url_del(self):
+        return reverse("Inventory_management_delete", kwargs={"post_id": self.id})
 class Supplier(models.Model):
     name = models.CharField(max_length=255, unique=True, verbose_name="Поставщик")
 
@@ -137,3 +139,6 @@ class PurchasePlan(models.Model):
 
     def __str__(self):
         return f"{self.count} {self.item.goods} from {self.supplier.name} at {self.planned_price} on {self.planned_date}"
+
+class History(models.Model):
+    pass

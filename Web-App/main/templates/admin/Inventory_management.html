@@ -11,38 +11,41 @@
 
 {% block content %}
     <div class="admin-form-edit-inventory">
-        <h1>Редактирование инвентаря</h1>
+        <h1>Выдать инвентарь</h1>
         <div class="form_admin">
             <form method="post" class="form_content">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class = 'btn2'>Добавить</button>
+            <button type="submit" class = 'btn2'>Выдать</button>
+                <div>
+                    <ul class="errorlist">
+                        <li>{{ error }}</li>
+                    </ul>
+                </div>
             </form>
+
+
         </div>
         <div class="container mt-5">
-                <h1>Инвентарь</h1>
+             <h1>В аренде</h1>
                     <table  class="table table-striped">
                       <thead>
                         <tr>
                             <th>#</th>
-                            <th>Название</th>
+                            <th>Имя</th>
+                            <th>Предмет</th>
                             <th>Количество</th>
-                            <th>Взято</th>
-                            <th>Состояние</th>
-                            <th>Изменить</th>
-                            <th>Удалить</th>
+                            <th>Вернуть</th>
                         </tr>
                       </thead>
                       <tbody>
-                      {% for el in g %}
+                      {% for el in u %}
                         <tr>
                             <td> {{ forloop.counter }}</td>
-                            <td> {{el.goods}}</td>
-                            <td> {{el.count}}</td>
-                            <td> {{el.rented_count}}</td>
-                            <td> {{el.condition}}</td>
-                            <td><a class="btn_r" href="{{el.get_absolute_url}}">Изменить</a></td>
-                            <td><button class="btn_r" href="{{el.get_absolute_url_del}}" onclick="confirm_delete();">Удалить</button></td>
+                            <td> {{el.User}}</td>
+                            <td> {{el.Rent}}</td>
+                            <td> {{el.Count}}</td>
+                            <td><button class="btn_r" href="{{el.get_absolute_url_del}}" onclick="confirm_delete();">Вернуть</button></td>
                         </tr>
                         {% endfor %}
                     </table>
@@ -50,10 +53,10 @@
                     <script>
                         document.getElementsByClassName('btn_r').onclick = confirm_delete;
                         function confirm_delete(){
-                            var r = confirm("Вы действительно хотите безвозвратно удалить эти данные?");
+                            var r = confirm("Вы действительно хотите вернуть инвентарь?");
                             if (r == true) {
-                            {% for el in g %}
-                                window.location.href="{{ el.get_absolute_url_del }}"
+                            {% for el in u %}
+                                window.location.href="{{el.get_absolute_url_del}}"
                             {% endfor %}
                             }
                         }
