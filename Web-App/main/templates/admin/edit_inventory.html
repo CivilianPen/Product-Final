@@ -16,7 +16,9 @@
             <form method="post" class="form_content">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class = 'btn2'>Добавить</button>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="submit" class = 'btn btn-success btn-lg'>Добавить</button>
+                </div>
             </form>
         </div>
         <div class="container mt-5">
@@ -41,24 +43,14 @@
                             <td> {{el.count}}</td>
                             <td> {{el.rented_count}}</td>
                             <td> {{el.condition}}</td>
-                            <td><a class="btn_r" href="{{el.get_absolute_url}}">Изменить</a></td>
-                            <td><button class="btn_r" href="{{el.get_absolute_url_del}}" onclick="confirm_delete();">Удалить</button></td>
+                            <td><a class="btn btn-secondary" href="{{el.get_absolute_url}}">Изменить</a></td>
+                            <td><a class="btn btn-danger" href="{{el.get_absolute_url_del}}" >Удалить</a></td>
                         </tr>
                         {% endfor %}
                     </table>
 
-                    <script>
-                        document.getElementsByClassName('btn_r').onclick = confirm_delete;
-                        function confirm_delete(){
-                            var r = confirm("Вы действительно хотите безвозвратно удалить эти данные?");
-                            if (r == true) {
-                            {% for el in g %}
-                                window.location.href="{{ el.get_absolute_url_del }}"
-                            {% endfor %}
-                            }
-                        }
 
-                    </script>
+
 
         </div>
 
@@ -74,4 +66,5 @@
         </script>
 
     </div>
+
 {% endblock %}

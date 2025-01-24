@@ -23,8 +23,9 @@
 
                     <div class="left-shortcuts">
                         <a href="{% url 'main' %}" class = 'btn3'> Главная </a>
-                        <a href="{% url 'application-get' %}" class = 'btn3'> Заявка на получение инвентаря </a>
-                        <a href="{% url 'application-repair' %}" class = 'btn3'> Заявка на ремонт или замену инвентаря </a>
+                        <a href="{% url 'my' %}" class = 'btn3'> Ваш инвентарь </a>
+                        <a href="{% url 'application-get' %}" class = 'btn3'> Получение инвентаря </a>
+                        <a href="{% url 'application-repair' %}" class = 'btn3'> Ремонт или замена инвентаря </a>
                         {% if request.user.is_superuser %}
                         <a href="{% url 'console' %}" class = 'btn3'> Админка </a>
                         {% endif %}
@@ -53,5 +54,7 @@
 
     </div>
 
+<!-- Bootstrap -->
+<script src="/examples/vendors/bootstrap-3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

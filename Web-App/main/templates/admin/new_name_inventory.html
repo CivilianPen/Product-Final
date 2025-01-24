@@ -11,46 +11,41 @@
 
 {% block content %}
     <div class="admin-form-edit-inventory">
-        <h1>Выдать инвентарь</h1>
+        <h1>Добавление названия</h1>
         <div class="form_admin">
             <form method="post" class="form_content">
             {% csrf_token %}
             {{ form.as_p }}
-            <div class="d-grid gap-2 col-6 mx-auto">
+                <div class="d-grid gap-2 col-6 mx-auto">
                     <button type="submit" class = 'btn btn-success btn-lg'>Добавить</button>
                 </div>
-                <div>
-                    <ul class="errorlist">
-                        <li>{{ error }}</li>
-                    </ul>
-                </div>
             </form>
-
-
         </div>
         <div class="container mt-5">
-             <h1>В аренде</h1>
+                <h1>Названия</h1>
                     <table  class="table table-striped">
                       <thead>
                         <tr>
                             <th>#</th>
-                            <th>Имя</th>
-                            <th>Предмет</th>
-                            <th>Количество</th>
-                            <th>Вернуть</th>
+                            <th>Название</th>
+                            <th>Изменить</th>
+                            <th>Удалить</th>
                         </tr>
                       </thead>
                       <tbody>
-                      {% for el in u %}
+                      {% for el in names %}
                         <tr>
                             <td> {{ forloop.counter }}</td>
-                            <td> {{el.User}}</td>
-                            <td> {{el.Rent}}</td>
-                            <td> {{el.Count}}</td>
-                            <td><a class="btn btn-warning" href="{{el.get_absolute_url_del}}" >Вернуть</a></td>
+                            <td> {{el.name_of_good}}</td>
+                            <td><a class="btn btn-secondary" href="{{el.get_absolute_url}}">Изменить</a></td>
+                            <td><a class="btn btn-danger" href="{{el.get_absolute_url_del}}" >Удалить</a></td>
                         </tr>
                         {% endfor %}
                     </table>
+
+
+
+
         </div>
 
 
@@ -65,4 +60,5 @@
         </script>
 
     </div>
+
 {% endblock %}

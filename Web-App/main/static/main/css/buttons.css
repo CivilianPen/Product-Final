@@ -1,29 +1,3 @@
-a.btn{
-border-radius: 4px;
--webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
--moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
-color: #fff;
-display: inline-block;
-width:115px;
-font-size: 24px;
-text-align: center;
-font-family: Arial, Helvetica, sans-serif;
-padding: 8px 16px;
-margin: 20px auto;
-text-decoration: none;
-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
--webkit-transition: background-color 0.1s linear;
--moz-transition: background-color 0.1s linear;
--o-transition: background-color 0.1s linear;
-transition: background-color 0.1s linear;
-background-color: rgb( 27, 124, 173 );
-border: 1px solid rgb( 20, 91, 127 );
-}
-
-a.btn:hover {
-background-color: rgb( 82, 164, 206 );
-}
 
 button.btn2{
 border-radius: 4px;
@@ -99,4 +73,164 @@ border: 1px solid rgb( 20, 91, 127 );
 
 a.btn4:hover {
 background-color: rgb( 82, 164, 206 );
+}
+$gw-blue: rgb(52, 152, 219); /*#3498db  edit   */
+$gw-purple: rgb(142, 68, 173);  /*#8e44ad  save   */
+$gw-green: rgb(46, 204, 113); /*#2ecc71    new  */
+$gw-gray-5: rgb(85, 85, 85); /*#555555  cancel   */
+$gw-red: rgb(192, 57, 43); /*#c0392b  delete   */
+/* 1st alternate hover colors if hover inset shadow not working properly
+$gw-blue-dark: rgb(27, 79, 114); /*#1b4f72
+$gw-purple-dark: rgb(74, 35, 90);  /*#4a235a
+$gw-green-dark: rgb(29, 131, 72); /*#1d8348
+$black: rgb(0, 0, 0); /*#000000
+$gw-red-dark: rgb(123, 36, 28); /*#7b241c */
+
+
+.button {
+  font-family:'Open Sans';
+  font-size: 16px;
+  font-weight:400;
+  display:inline-block;
+  color:#FFF;
+  border-radius: .25em;
+  text-shadow: -1px -1px 0px rgba(0,0,0,0.4);
+}
+
+.primary {
+  line-height:40px;
+  transition:ease-in-out .2s;
+  padding: 0 16px;
+}
+
+.primary:hover, .condensed:hover, .touch:hover {
+  transform:scale(1.02);
+  box-shadow:2px 2px 5px rgba(0,0,0,0.20), inset 0 0 0 99999px rgba(0,0,0,0.2);
+}
+/* 2nd alternate hover colors if hover inset shadow not working properly
+.edit:hover {
+  background: darken($gw-blue, 10%);
+}
+
+.save:hover {
+  background: darken($gw-purple, 10%);
+}
+
+.new:hover {
+  background: darken($gw-green, 10%);
+}
+
+.cancel:hover {
+  background: darken($gw-gray-5, 10%);
+}
+
+.delete:hover {
+  background: darken($gw-red, 10%);
+}
+*/
+
+.condensed {
+  transition:ease-in-out .2s;
+  line-height:24px;
+  padding: 0 8px;
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.25);
+}
+
+.touch {
+  transition:ease-in-out .2s;
+  line-height:40px;
+  width:40px;
+  padding: 0px;
+  text-align: center;
+}
+
+.inlineIcon {}
+
+.edit:before, .save:before, .new:before, .cancel:before, .delete:before {
+  font-family: FontAwesome;
+  display: inline-block;
+  font-size:1rem;
+  padding-right:12px;
+  background:none;
+  color:#FFF;
+}
+
+.condensed.edit:before, .condensed.save:before, .condensed.new:before, .condensed.cancel:before, .condensed.delete:before {
+   content:none;
+}
+
+.touch.edit:before, .touch.save:before, .touch.new:before, .touch.cancel:before, .touch.delete:before {
+  width:100%;
+  text-align:center;
+  font-size:1.25rem;
+}
+
+.inlineIcon.edit, .inlineIcon.save, .inlineIcon.new, .inlineIcon.cancel, .inlineIcon.delete {
+  background: transparent;
+}
+
+.inlineIcon.edit:before, .inlineIcon.save:before, .inlineIcon.new:before, .inlineIcon.cancel:before, .inlineIcon.delete:before {
+  line-height:32px;
+  font-size:32px;
+  padding:4px 0px;
+}
+
+.edit {
+  background: $gw-blue;
+
+  &:before {
+    content: "\f040";
+  }
+}
+
+.inlineIcon.edit:before {
+    color: $gw-blue;
+}
+
+.save {
+  background: $gw-purple;
+
+  &:before {
+    content: "\f0c7";
+  }
+}
+
+.inlineIcon.save:before {
+    color: $gw-purple;
+}
+
+.new {
+  background: $gw-green;
+
+  &:before {
+    content: "\f067";
+  }
+}
+
+.inlineIcon.new:before {
+    color: $gw-green;
+}
+
+.cancel {
+  background: $gw-gray-5;
+
+  &:before {
+    content: "\f05e";
+  }
+}
+
+.inlineIcon.cancel:before {
+    color: $gw-gray-5;
+}
+
+.delete {
+  background: $gw-red;
+
+  &:before {
+    content: "\f1f8";
+  }
+}
+
+.inlineIcon.delete:before {
+    color: $gw-red;
 }

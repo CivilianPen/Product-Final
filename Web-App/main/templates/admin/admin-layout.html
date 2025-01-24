@@ -21,10 +21,11 @@
 
                 <div class = 'lower'>
 
-                    <div cless="left-shortcuts">
+                    <div class="left-shortcuts">
                         <a href="{% url 'main' %}" class = 'btn3'> Главная </a>
-                        <a href="{% url 'application-get' %}" class = 'btn3'> Заявка на получение инвентаря </a>
-                        <a href="{% url 'application-repair' %}" class = 'btn3'> Заявка на ремонт или замену инвентаря </a>
+                        <a href="{% url 'my' %}" class = 'btn3'> Ваш инвентарь </a>
+                        <a href="{% url 'application-get' %}" class = 'btn3'> Получение инвентаря </a>
+                        <a href="{% url 'application-repair' %}" class = 'btn3'> Ремонт или замена инвентаря </a>
                         {% if request.user.is_superuser %}
                         <a href="{% url 'console' %}" class = 'btn3'> Админка </a>
                         {% endif %}
@@ -45,6 +46,7 @@
 
             <div class="side-bar">
                 <a href="{% url 'edit_inventory' %}" class = 'btn4'> Редактирование инвентаря </a>
+                <a href="{% url 'new_name_inventory' %}" class = 'btn4'> Добавление названия инвентаря </a>
                 <a href="{% url 'purchase_plan' %}" class = 'btn4'> План закупок </a>
                 <a href="{% url 'Request_for_receipt_inventory' %}" class = 'btn4'> Заявки пользователей на получение инвентаря</a>
                 <a href="{% url 'Request_for_repair_inventory' %}" class = 'btn4'> Заявки пользователей на ремонт или замену инвентаря </a>

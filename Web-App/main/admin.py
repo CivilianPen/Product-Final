@@ -3,6 +3,12 @@ from .models import  *
 
 
 # Register your models here.
+@admin.register(Goods_Names)
+class GoodsAdmin(admin.ModelAdmin):
+    list_display = ['name_of_good']
+    list_editable = ['name_of_good']
+    list_display_links = None
+
 @admin.register(Goods)
 class GoodsAdmin(admin.ModelAdmin):
     list_display = ['goods','count','rented_count','condition','description','created_at','updated_at']
@@ -23,7 +29,7 @@ class ApplicationsAdmin(admin.ModelAdmin):
 
 @admin.register(Users)
 class UsersAdmin(admin.ModelAdmin):
-    list_display = ['User','Rent','Count','Plus']
+    list_display = ['User','Rent','Count']
     list_editable = ['Rent','Count']
     list_display_links = None
 
@@ -36,3 +42,9 @@ class SupplierAdmin(admin.ModelAdmin):
 @admin.register(PurchasePlan)
 class PurchasePlanAdmin(admin.ModelAdmin):
     list_display = ('item', 'supplier', 'planned_price', 'planned_date')
+
+@admin.register(History)
+class HistoryAdmin(admin.ModelAdmin):
+    list_display = ['User','Rent','Count','rented_at','returned_at']
+    list_editable = ['Rent','Count']
+    list_display_links = None

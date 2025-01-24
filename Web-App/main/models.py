@@ -7,7 +7,20 @@ from django.utils import timezone
 from django.utils.crypto import *
 import random
 import string
+class Goods_Names(models.Model):
+    name_of_good = models.CharField('Название', max_length=30)
 
+    def __str__(self):
+        return self.name_of_good
+
+    class Meta:
+        verbose_name = "Название инвентаря"
+        verbose_name_plural = "Названия инвентаря"
+
+    def get_absolute_url(self):
+        return reverse("update_name_inventory", kwargs={"post_id": self.id})
+    def get_absolute_url_del(self):
+        return reverse("delete_name_inventory", kwargs={"post_id": self.id})
 class Goods(models.Model):
     CONDITION_CHOICES = [
         ('новый', 'новый'),
@@ -15,7 +28,7 @@ class Goods(models.Model):
         ('сломанный', 'сломанный'),
     ]
 
-    goods = models.CharField('Название', max_length=30)
+    goods = models.ForeignKey('Goods_Names',on_delete=models.CASCADE,null=True,verbose_name='Предмет')
     count = models.IntegerField('Количество', default=1)
     rented_count = models.IntegerField('Взято', default=0)
     condition = models.CharField('Состояние', max_length=20, choices=CONDITION_CHOICES)
@@ -29,7 +42,7 @@ class Goods(models.Model):
         verbose_name_plural = "Инвентарь"
 
     def __str__(self):
-        return self.goods
+        return f"{self.goods} {self.condition} {self.count}шт"
 
     def get_absolute_url(self):
         return reverse("Update_inventory", kwargs={"post_id": self.id})
@@ -68,7 +81,7 @@ class Goods(models.Model):
 class Applications_get(models.Model):
     state = {'На рассмотрении': 'На рассмотрении', 'Одобрено': 'Одобрено', 'Отказано': 'Отказано'}
     username = models.CharField('Имя',max_length=100)
-    Request = models.ForeignKey('Goods' ,on_delete=models.PROTECT,null=True,verbose_name='Предмет')
+    Request = models.ForeignKey('Goods' ,on_delete=models.CASCADE,null=True,verbose_name='Предмет')
     Request_count = models.PositiveIntegerField('Количество',default=0,validators=[MinValueValidator(1)])
     Status = models.CharField('Статус заявки',default='На рассмотрении', choices=state,max_length=100)
 
@@ -85,7 +98,7 @@ class Applications_repair(models.Model):
     CHOICES = {'Ремонт': 'Ремонт', 'Замена': 'Замена'}
     state = {'На рассмотрении': 'На рассмотрении', 'Выполнено': 'Выполнено', 'Отказано': 'Отказано'}
     username = models.CharField('Имя',max_length=100)
-    Request = models.ForeignKey('Goods' ,on_delete=models.PROTECT,null=True,verbose_name='Предмет')
+    Request = models.ForeignKey('Goods' ,on_delete=models.CASCADE,null=True,verbose_name='Предмет')
     Aim = models.CharField('Действие',choices=CHOICES,default='Ремонт',max_length=100)
     Comment = models.CharField('Комментарий', max_length=150)
     Status = models.CharField('Статус заявки',default='На рассмотрении', choices=state,max_length=100)
@@ -105,9 +118,9 @@ class Users(models.Model):
         on_delete=models.CASCADE,
         related_name='scores',
     )
-    Rent = models.ForeignKey('Goods', on_delete=models.PROTECT, null=True,blank=True)
+    Rent = models.ForeignKey('Goods', on_delete=models.CASCADE, null=True,blank=True)
     Count = models.IntegerField('Количество',default=1,validators=[MinValueValidator(1)])
-    Plus = models.BooleanField(default=False,editable=False)
+
 
     class Meta:
         verbose_name = "Пользователь"
@@ -140,5 +153,27 @@ class PurchasePlan(models.Model):
     def __str__(self):
         return f"{self.count} {self.item.goods} from {self.supplier.name} at {self.planned_price} on {self.planned_date}"
 
+    def get_absolute_url_del(self):
+        return reverse("delete_purchase_plan", kwargs={"post_id": self.id})
+
 class History(models.Model):
-    pass
+    CONDITION_CHOICES = [
+        ('новый', 'новый'),
+        ('использованный', 'использованный'),
+        ('сломанный', 'сломанный'),
+    ]
+    User = models.CharField(max_length=255,null=True, blank=True)
+    Rent = models.ForeignKey('Goods',on_delete=models.CASCADE,verbose_name='Предмет',null=True, blank=True)
+    Count = models.CharField(max_length=255,verbose_name='Количество',null=True, blank=True)
+    rented_at = models.DateTimeField('Взято', default=timezone.now)
+    returned_at = models.DateTimeField('Возвращено',auto_now=True)
+
+    class Meta:
+        verbose_name = "Отчет"
+        verbose_name_plural = "Отчеты"
+
+    def Get_id(self):
+        return self.id
+    def Returned(self):
+        self.returned_at=timezone.now
+        self.save()

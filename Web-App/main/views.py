@@ -31,23 +31,21 @@ def ApplicationsForm(request):
 
     user_name = User.objects.get(username=request.user)
     n = Applications_get.objects.filter(username=user_name)
-
     if request.method == 'POST':
 
         form = AddPostForm_get(request.POST or None, user=request.user)
         if form.is_valid():
-            try:
-                item = form.cleaned_data['Request']
 
-                if int(form.data['Request_count']) <= Goods.available_count(self=item):
-                    Applications_get.objects.create(**form.cleaned_data)
-                    return  redirect('application-get')
+            item = form.cleaned_data['Request']
 
-                else:
-                    error = 'Убедитесь, что инвентаря достаточно'
-                    return render(request, 'main/Application.html', {'form': form ,'n' : n,'g' : g,'error': error })
-            except:
-                form.add_error(None,'Ошибка')
+            if int(form.data['Request_count']) <= Goods.available_count(self=item):
+                Applications_get.objects.create(**form.cleaned_data)
+                return  redirect('application-get')
+
+            else:
+                error = 'Убедитесь, что инвентаря достаточно'
+                return render(request, 'main/Application.html', {'form': form ,'n' : n,'g' : g,'error': error })
+
     else:
         form=AddPostForm_get(user=request.user)
 
@@ -74,7 +72,7 @@ def ApplicationsForm2(request):
             except:
                 form.add_error(None,'Ошибка')
     else:
-        form=AddPostForm_repiar(user=request.user)
+        form=AddPostForm_repiar(user=user_name)
 
     return render(request, 'main/Application2.html' , {'form': form,'n' : n})
 def page(request):
@@ -84,7 +82,14 @@ def page(request):
         el.count=Goods.available_count(self=el)
 
     return render(request, 'main/index.html' , {'Items': Items})
-# console/add-purchase-plan/
+
+def page2(request):
+    ''' (просмотр инвентаря пользователя)'''
+    user_name = User.objects.get(username=request.user)
+    Items = (Users.objects.filter(User=user_name))
+
+    return render(request, 'main/user_inventory.html' , {'Items': Items})
+
 def purchase_plan(request):
     ''' Добавления плана закупок'''
     if request.user.is_superuser:
@@ -100,8 +105,55 @@ def purchase_plan(request):
     else:
         return render(request, 'admin/Error.html')
 
-# console/purchase-plan/
+def delete_purchase_plan(request,post_id):
+    ''' Удаление плана закупок'''
+    if request.user.is_superuser:
+        p = (PurchasePlan.objects.filter(pk=post_id))
+        p.delete()
+        return redirect('purchase_plan')
+    else:
+        return render(request, 'admin/Error.html')
 
+def new_name_inventory(request):
+    ''' Добавление названия инвентаря'''
+    if request.user.is_superuser:
+        names = Goods_Names.objects.all()
+        if request.method == "POST":
+            form = NewGoodsName(request.POST or None)
+            if form.is_valid():
+                form.save()
+                return redirect('new_name_inventory')
+        else:
+            form = NewGoodsName()
+
+        return render(request, 'admin/new_name_inventory.html', {'form': form, 'names': names})
+    else:
+        return render(request, 'admin/Error.html')
+
+def update_name_inventory(request,post_id):
+    ''' Изменение названия инвентаря'''
+    if request.user.is_superuser:
+        names = Goods_Names.objects.get(pk=post_id)
+
+        form = NewGoodsName(request.POST or None, instance=names)
+        if form.is_valid():
+            form.save()
+            return redirect('new_name_inventory')
+
+
+        return render(request, 'admin/update_name_inventory.html', {'form': form, 'names': names})
+    else:
+        return render(request, 'admin/Error.html')
+
+def delete_name_inventory(request,post_id):
+    ''' Удаление названия инвентаря'''
+    if request.user.is_superuser:
+        names = Goods_Names.objects.filter(pk=post_id)
+        names.delete()
+
+        return redirect('new_name_inventory')
+    else:
+        return render(request, 'admin/Error.html')
 def edit_inventory(request):
     ''' Добавление + просмотр инвентаря'''
     if request.user.is_superuser:
@@ -206,8 +258,11 @@ def Inventory_management(request):
         u = (Users.objects.all())
         form = Form_Inventory_management(request.POST or None)
         if form.is_valid():
+            user = form.cleaned_data['User']
             item = form.cleaned_data['Rent']
             count = form.cleaned_data['Count']
+            #logging.info(item)
+            History.objects.create(User=user,Rent=item,Count=count)
             if int(count) <= Goods.available_count(self=item):
                 Goods.rent_item(self=item,quantity=count)
                 form.save()
@@ -223,11 +278,15 @@ def Inventory_management_delete(request,post_id):
     '''Удаление инвентаря у пользователей'''
     if request.user.is_superuser:
         u = (Users.objects.filter(pk=post_id))
+
+        #logging.info(u[0])
         for el in u:
             item = el.Rent
             count = el.Count
             Goods.return_item(self=item,quantity=count)
+
         u.delete()
+
         return redirect('Inventory_management')
     else:
         return render(request, 'admin/Error.html')

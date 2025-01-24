@@ -124,6 +124,14 @@ class UpdateGoodsForm(forms.ModelForm):
             'description': forms.TextInput()
         }
 
+class NewGoodsName(forms.ModelForm):
+    class Meta:
+        model = Goods_Names
+        fields = ('name_of_good',)
+        labels = {
+            'name_of_good': 'Предмет',
+        }
+
 class Form_Inventory_management(forms.ModelForm):
     class Meta:
         model = Users

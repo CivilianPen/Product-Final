@@ -7,7 +7,7 @@ body{
     place-items: left;
     background: #1B7CAD;
     width: 100%;
-    height: 110px;
+    height: 100px;
     overflow: auto;
 }
 .lower {
@@ -23,7 +23,7 @@ body{
 .back{
     height: 100%;
     width: 100%;
-    overflow: hidden;
+    overflow: auto;
 }
 .admin-hello{
 }
@@ -31,7 +31,7 @@ h4 {
     text-align: center;
 }
 .logo2 {
-    font-size: 34px;
+    font-size: 30px;
     margin-left: 25px;
     font-weight: bold;
     color: #fff;
@@ -69,7 +69,7 @@ li {
 .admin-content{
     display: grid;
     grid-template-columns: 210px 80vw;
-    height: 100%;
+    height: 87.3%
 }
 .right-content{
     width: 100%;
@@ -88,6 +88,7 @@ li {
 .form_admin {
     display: grid;
     place-items: center;
+
 }
 .form_content {
     padding-top: 27px;
@@ -96,6 +97,7 @@ li {
     padding-left: 100px;
     padding-right: 100px;
     border-radius: 50px;
+    padding-bottom: 20px;
 }
 .form_title {
     margin-top: 15px;
@@ -105,16 +107,23 @@ li {
     margin-top: 15px;
     font-size: 1.7rem;
     text-align: center;
+    overflow: auto;
+}
+.form_forms{
+
 }
 .review {
     float: left;
-    overflow:auto;
+    font-size: 1.5rem;
+    /*
     width: 31vw;
     margin-top: 15px;
     margin-left: 30px;
-    font-size: 1.7rem;
+
     background-color: #e3f5ff;
     border-radius: 20px;
+
+    */
     padding-left: 40px;
     padding-top: 15px;
     padding-bottom: 15px

@@ -24,9 +24,9 @@
                                 <li>{{ error}}</li>
                             </ul>
                         </div>
-                        <button class="btn2" type="submit">
-                            Добавить
-                        </button>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button type="submit" class = 'btn btn-success btn-lg'>Добавить</button>
+                        </div>
                     </form>
                 </div>
 
@@ -36,11 +36,21 @@
                     {% for el in n %}
 
                         <div class = 'review'>
-                            <p><pre >Предмет: {{el.Request}} </pre></p>
-                            <p><pre >Действие: {{el.Aim}} </pre></p>
-                            <p><pre >Комментарий: {{el.Comment}} </pre></p>
-                            <p><pre >Статус: {{el.Status}} </pre></p>
+
+
+                                <div class="card border-primary mb-3" style="max-width: 18rem;">
+                              <div class="card-header">{{el.Request}}</div>
+                              <div class="card-body text-primary">
+                                <h3 class="card-title">{{el.Status}}</h3>
+                                <p class="card-text">{{el.Aim}}</p>
+                                <p class="card-text">{{el.Comment}}</p>
+                              </div>
+                            </div>
                         </div>
+
+
+                        </div>
+
 
                     {% endfor %}
                     </div>

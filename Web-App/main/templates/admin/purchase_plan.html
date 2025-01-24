@@ -18,7 +18,9 @@
             <form method="post" class="form_content">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class = 'btn2'>Добавить</button>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="submit" class = 'btn btn-success btn-lg'>Добавить</button>
+                </div>
             </form>
         </div>
 
@@ -40,11 +42,12 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Товар</th>
+                        <th>Предмет</th>
                         <th>Поставщик</th>
                         <th>Планируемая цена за единицу</th>
                         <th>Количество</th>
                         <th>Планируемая дата</th>
+                        <th>Удалить</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,10 +59,12 @@
                             <td>{{ plan.planned_price }} ₽</td>
                             <td>{{ plan.count }}</td>
                             <td>{{ plan.planned_date }}</td>
+                            <td><a class="btn btn-danger" href="{{plan.get_absolute_url_del}}">Удалить</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
+
         {% else %}
             <p>Нет доступных планов закупки.</p>
         {% endif %}
