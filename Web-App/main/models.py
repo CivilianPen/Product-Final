@@ -165,8 +165,10 @@ class History(models.Model):
     User = models.CharField(max_length=255,null=True, blank=True)
     Rent = models.ForeignKey('Goods',on_delete=models.CASCADE,verbose_name='Предмет',null=True, blank=True)
     Count = models.CharField(max_length=255,verbose_name='Количество',null=True, blank=True)
-    rented_at = models.DateTimeField('Взято', default=timezone.now)
-    returned_at = models.DateTimeField('Возвращено',auto_now=True)
+    condition_before =models.CharField('Состояние до', max_length=20, choices=CONDITION_CHOICES,null=True, blank=True)
+    condition_after = models.CharField('Состояние после', max_length=20, choices=CONDITION_CHOICES,null=True, blank=True)
+    rented_at = models.DateField('Взято', default=timezone.now)
+    returned_at = models.DateField('Возвращено',null=True, blank=True)
 
     class Meta:
         verbose_name = "Отчет"
@@ -177,3 +179,8 @@ class History(models.Model):
     def Returned(self):
         self.returned_at=timezone.now
         self.save()
+
+    def get_absolute_url(self):
+        return reverse("Update_history", kwargs={"post_id": self.id})
+    def get_absolute_url_del(self):
+        return reverse("Delete_history", kwargs={"post_id": self.id})

@@ -45,6 +45,6 @@ class PurchasePlanAdmin(admin.ModelAdmin):
 
 @admin.register(History)
 class HistoryAdmin(admin.ModelAdmin):
-    list_display = ['User','Rent','Count','rented_at','returned_at']
-    list_editable = ['Rent','Count']
+    list_display = ['User','Rent','Count','condition_before','condition_after','rented_at','returned_at']
+    list_editable = ['Rent','Count','condition_before','condition_after',]
     list_display_links = None

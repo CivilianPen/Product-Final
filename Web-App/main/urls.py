@@ -28,5 +28,8 @@ urlpatterns = [
     path('console/request-for-repair-inventory-update/<int:post_id>/', views.Update_Request_for_repair_inventory, name="Update_Request_for_repair_inventory"),
     path('console/inventory-management/', views.Inventory_management, name="Inventory_management"),
     path('console/inventory-management-delete/<int:post_id>/', views.Inventory_management_delete, name="Inventory_management_delete"),
+    path('console/history/', views.history, name="history"),
+    path('console/history-update/<int:post_id>/', views.Update_history, name="Update_history"),
+    path('console/history-delete/<int:post_id>/', views.Delete_history, name="Delete_history"),
 
 ]

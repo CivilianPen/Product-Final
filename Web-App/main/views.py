@@ -261,8 +261,8 @@ def Inventory_management(request):
             user = form.cleaned_data['User']
             item = form.cleaned_data['Rent']
             count = form.cleaned_data['Count']
-            #logging.info(item)
-            History.objects.create(User=user,Rent=item,Count=count)
+            #logging.info(item.condition)
+            History.objects.create(User=user,Rent=item,Count=count,condition_before=item.condition,condition_after=item.condition)
             if int(count) <= Goods.available_count(self=item):
                 Goods.rent_item(self=item,quantity=count)
                 form.save()
@@ -288,6 +288,34 @@ def Inventory_management_delete(request,post_id):
         u.delete()
 
         return redirect('Inventory_management')
+    else:
+        return render(request, 'admin/Error.html')
+def history(request):
+    if request.user.is_superuser:
+        h = (History.objects.all())
+
+        return render(request, 'admin/history.html', {'h':h})
+    else:
+        return render(request, 'admin/Error.html')
+
+def Update_history(request,post_id):
+    if request.user.is_superuser:
+        h = (History.objects.get(pk=post_id))
+
+        form = HistoryUpdate(request.POST or None, instance=h)
+        if form.is_valid():
+            form.save()
+            return redirect('history')
+
+        return render(request, 'admin/update_history.html', {'form': form, 'h': h})
+    else:
+        return render(request, 'admin/Error.html')
+
+def Delete_history(request,post_id):
+    if request.user.is_superuser:
+        h = (History.objects.filter(pk=post_id))
+        h.delete()
+        return redirect('history')
     else:
         return render(request, 'admin/Error.html')
 class RegisterUser(DataMixin, CreateView):

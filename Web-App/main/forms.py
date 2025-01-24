@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
+from django.contrib.admin import widgets
 import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('main')
@@ -143,4 +144,23 @@ class Form_Inventory_management(forms.ModelForm):
         }
         widgets = {
 
+        }
+
+class HistoryUpdate(forms.ModelForm):
+    class Meta:
+        model = History
+        fields = ('User', 'Rent', 'Count','condition_before','condition_after','rented_at','returned_at')
+        labels = {
+            'User': 'Имя',
+            'Rent': 'Предмет',
+            'Count': 'Количество',
+            'condition_before' : 'Состояние до',
+            'condition_after' : 'Состояние после',
+            'rented_at' : 'Когда взято',
+            'returned_at' : 'Когда возвращено',
+        }
+        widgets = {
+
+            'rented_at': forms.TextInput(attrs={'class': 'flatpickr'}),
+            'returned_at': forms.TextInput(attrs={'class': 'flatpickr'}),
         }
