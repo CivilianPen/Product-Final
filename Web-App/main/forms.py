@@ -114,12 +114,11 @@ class PurchasePlanForm(forms.ModelForm):
 class UpdateGoodsForm(forms.ModelForm):
     class Meta:
         model = Goods
-        fields = ('goods', 'count', 'condition', 'description')
+        fields = ('goods', 'count', 'condition')
         labels = {
             'goods': 'Предмет',
             'count': 'Количество',
             'condition': 'Состояние',
-            'description': 'Описание',
         }
         widgets = {
             'description': forms.TextInput()

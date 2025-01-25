@@ -11,7 +11,7 @@ class GoodsAdmin(admin.ModelAdmin):
 
 @admin.register(Goods)
 class GoodsAdmin(admin.ModelAdmin):
-    list_display = ['goods','count','rented_count','condition','description','created_at','updated_at']
+    list_display = ['goods','count','rented_count','condition','created_at','updated_at']
     list_editable = ['goods','count','rented_count','condition']
     list_display_links = None
 

@@ -32,7 +32,6 @@ class Goods(models.Model):
     count = models.IntegerField('Количество', default=1)
     rented_count = models.IntegerField('Взято', default=0)
     condition = models.CharField('Состояние', max_length=20, choices=CONDITION_CHOICES)
-    description = models.TextField('Описание', blank=True, null=True)
     created_at = models.DateTimeField('Добавлено', default=timezone.now)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
 
