@@ -18,63 +18,62 @@ logger = logging.getLogger('main')
 
 def AdminPage(request):
     if request.user.is_superuser:
-
-
         return render(request, 'admin/Admin.html')
     else:
         return render(request, 'admin/Error.html')
 def ApplicationsForm(request):
     '''Форма заявки на получение'''
-    #logging.info()
-    g = list(Goods.objects.all())
-    r = list(Applications_get.objects.all())
+    if request.user.is_authenticated:
+        #logging.info()
+        g = list(Goods.objects.all())
+        r = list(Applications_get.objects.all())
 
-    user_name = User.objects.get(username=request.user)
-    n = Applications_get.objects.filter(username=user_name)
-    if request.method == 'POST':
+        user_name = User.objects.get(username=request.user)
+        n = Applications_get.objects.filter(username=user_name)
+        if request.method == 'POST':
 
-        form = AddPostForm_get(request.POST or None, user=request.user)
-        if form.is_valid():
+            form = AddPostForm_get(request.POST or None, user=request.user)
+            if form.is_valid():
 
-            item = form.cleaned_data['Request']
+                item = form.cleaned_data['Request']
 
-            if int(form.data['Request_count']) <= Goods.available_count(self=item):
-                Applications_get.objects.create(**form.cleaned_data)
-                return  redirect('application-get')
+                if int(form.data['Request_count']) <= Goods.available_count(self=item):
+                    Applications_get.objects.create(**form.cleaned_data)
+                    return  redirect('application-get')
 
-            else:
-                error = 'Убедитесь, что инвентаря достаточно'
-                return render(request, 'main/Application.html', {'form': form ,'n' : n,'g' : g,'error': error })
+                else:
+                    error = 'Убедитесь, что инвентаря достаточно'
+                    return render(request, 'main/Application.html', {'form': form ,'n' : n,'g' : g,'error': error })
+        else:
+            form=AddPostForm_get(user=request.user)
 
+        return render(request, 'main/Application.html' , {'form': form ,'n' : n,'g' : g})
     else:
-        form=AddPostForm_get(user=request.user)
-
-
-
-    return render(request, 'main/Application.html' , {'form': form ,'n' : n,'g' : g})
-
+        return render(request, 'admin/Error.html')
 def ApplicationsForm2(request):
     '''Форма заявки на ремонт'''
-    #logging.info()
-    g = list(Goods.objects.all())
-    r = list(Applications_repair.objects.all())
+    if request.user.is_authenticated:
+        #logging.info()
+        g = list(Goods.objects.all())
+        r = list(Applications_repair.objects.all())
 
-    user_name = User.objects.get(username=request.user)
-    n = Applications_repair.objects.filter(username=user_name)
+        user_name = User.objects.get(username=request.user)
+        n = Applications_repair.objects.filter(username=user_name)
 
-    if request.method == 'POST':
+        if request.method == 'POST':
+            form = AddPostForm_repiar(request.POST or None, user=request.user)
+            if form.is_valid():
+                try:
+                    Applications_repair.objects.create(**form.cleaned_data)
+                    return  redirect('application-repair')
+                except:
+                    form.add_error(None,'Ошибка')
+        else:
+            form=AddPostForm_repiar(user=user_name)
 
-        form = AddPostForm_repiar(request.POST or None, user=request.user)
-        if form.is_valid():
-            try:
-                Applications_repair.objects.create(**form.cleaned_data)
-                return  redirect('application-repair')
-            except:
-                form.add_error(None,'Ошибка')
+        return render(request, 'main/Application2.html' , {'form': form,'n' : n})
     else:
-        form=AddPostForm_repiar(user=user_name)
-
-    return render(request, 'main/Application2.html' , {'form': form,'n' : n})
+        return render(request, 'admin/Error.html')
 def page(request):
     ''' Главная страница (просмотр инвентаря)'''
     Items = list(Goods.objects.all())
@@ -85,11 +84,13 @@ def page(request):
 
 def page2(request):
     ''' (просмотр инвентаря пользователя)'''
-    user_name = User.objects.get(username=request.user)
-    Items = (Users.objects.filter(User=user_name))
+    if request.user.is_authenticated:
+        user_name = User.objects.get(username=request.user)
+        Items = (Users.objects.filter(User=user_name))
 
-    return render(request, 'main/user_inventory.html' , {'Items': Items})
-
+        return render(request, 'main/user_inventory.html' , {'Items': Items})
+    else:
+        return render(request, 'admin/Error.html')
 def purchase_plan(request):
     ''' Добавления плана закупок'''
     if request.user.is_superuser:
