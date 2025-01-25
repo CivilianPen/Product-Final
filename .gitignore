@@ -6,3 +6,8 @@ Web-App/db.sqlite3
 /Web-App/main/migrations/__pycache__
 *.pyc
 Web-App/db.sqlite3
+/.venv
+/Web-App/main/__pycache__
+/Web-App/main/__pycache__
+/Web-App/main/__pycache__
+/Web-App/main/migrations/__pycache__
