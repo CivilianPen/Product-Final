@@ -263,9 +263,10 @@ def Inventory_management(request):
             item = form.cleaned_data['Rent']
             count = form.cleaned_data['Count']
             #logging.info(item.condition)
-            History.objects.create(User=user,Rent=item,Count=count,condition_before=item.condition,condition_after=item.condition)
+
             if int(count) <= Goods.available_count(self=item):
                 Goods.rent_item(self=item,quantity=count)
+                History.objects.create(User=user, Rent=item, Count=count, condition_before=item.condition,condition_after=item.condition)
                 form.save()
             else:
                 error = 'Убедитесь, что инвентаря достаточно'

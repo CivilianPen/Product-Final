@@ -29,8 +29,8 @@ class Goods(models.Model):
     ]
 
     goods = models.ForeignKey('Goods_Names',on_delete=models.CASCADE,null=True,verbose_name='Предмет')
-    count = models.IntegerField('Количество', default=1)
-    rented_count = models.IntegerField('Взято', default=0)
+    count = models.IntegerField('Количество', default=1,validators=[MinValueValidator(1)])
+    rented_count = models.IntegerField('Взято', default=0,validators=[MinValueValidator(0)])
     condition = models.CharField('Состояние', max_length=20, choices=CONDITION_CHOICES)
     created_at = models.DateTimeField('Добавлено', default=timezone.now)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
@@ -141,8 +141,8 @@ class Supplier(models.Model):
 class PurchasePlan(models.Model):
     item = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='purchase_plans', verbose_name="Товар")
     supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, verbose_name="Поставщик")
-    planned_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Планируемая цена")
-    count = models.PositiveIntegerField(default=1, verbose_name="Количество")
+    planned_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Планируемая цена",validators=[MinValueValidator(1)])
+    count = models.IntegerField(default=1, verbose_name="Количество",validators=[MinValueValidator(1)])
     planned_date = models.DateField(verbose_name="Планируемая дата")
 
     class Meta:
@@ -173,11 +173,6 @@ class History(models.Model):
         verbose_name = "Отчет"
         verbose_name_plural = "Отчеты"
 
-    def Get_id(self):
-        return self.id
-    def Returned(self):
-        self.returned_at=timezone.now
-        self.save()
 
     def get_absolute_url(self):
         return reverse("Update_history", kwargs={"post_id": self.id})

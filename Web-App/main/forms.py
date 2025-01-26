@@ -120,9 +120,7 @@ class UpdateGoodsForm(forms.ModelForm):
             'count': 'Количество',
             'condition': 'Состояние',
         }
-        widgets = {
-            'description': forms.TextInput()
-        }
+
 
 class NewGoodsName(forms.ModelForm):
     class Meta:
