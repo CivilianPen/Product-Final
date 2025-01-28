@@ -27,5 +27,5 @@
   
   
 ## ссылка на видеоролик: 
-  
+  - https://rutube.ru/video/private/e6f9b69d8c26980a7bc07b70c03bd0ad/?p=1iheNfJ6y6kBClkcqQT7cQ
 
