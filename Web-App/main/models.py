@@ -41,7 +41,7 @@ class Goods(models.Model):
         verbose_name_plural = "Инвентарь"
 
     def __str__(self):
-        return f"{self.goods} {self.condition} {self.count}шт"
+        return f"{self.goods} {self.condition} {self.count-self.rented_count}шт"
 
     def get_absolute_url(self):
         return reverse("Update_inventory", kwargs={"post_id": self.id})
