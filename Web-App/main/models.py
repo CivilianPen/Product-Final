@@ -117,7 +117,7 @@ class Users(models.Model):
         on_delete=models.CASCADE,
         related_name='scores',
     )
-    Rent = models.ForeignKey('Goods', on_delete=models.CASCADE, null=True,blank=True)
+    Rent = models.ForeignKey('Goods', on_delete=models.CASCADE,null=True)
     Count = models.IntegerField('Количество',default=1,validators=[MinValueValidator(1)])
 
 
