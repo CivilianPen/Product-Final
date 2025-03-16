@@ -18,14 +18,36 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('main')
 import requests
 def parsing(url):
-    MAP = []
+    tiles = []
     s = []
     for i in range(64):
         response = requests.get(url)
         data = response.json()['message']['data']
-        if not data in MAP:
-            MAP.append(data)
-    return MAP
+        if not data in tiles:
+            tiles.append(data)
+    order = [[-1] * 4, [-1] * 4, [-1] * 4, [-1] * 4]
+    c = 0
+    for x in range(4):
+        for y in range(4):
+            for i in range(16):
+                c = 0
+                for j in range(64):
+                    if x == 0 and y == 0:
+                        if tiles[i][0][j] == 255 and tiles[i][j][0] == 255:
+                            c += 1
+                    elif x == 0:
+                        if abs(tiles[i][0][j] - tiles[order[y - 1][x]][63][j]) <= 5 and tiles[i][j][0] == 255:
+                            c += 1
+                    elif y == 0:
+                        if tiles[i][0][j] == 255 and abs(tiles[i][j][0] - tiles[order[y][x - 1]][j][63]) <= 5:
+                            c += 1
+                    else:
+                        if abs(tiles[i][0][j] - tiles[order[y - 1][x]][63][j]) <= 5 and abs(
+                                tiles[i][j][0] - tiles[order[y][x - 1]][j][63]) <= 5:
+                            c += 1
+                if c >= 55:
+                    order[y][x] = i
+    return order
 
 def page(request):
     ''' Главная страница (просмотр инвентаря)'''
