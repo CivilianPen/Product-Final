@@ -20,7 +20,7 @@ import requests
 def parsing(url):
     tiles = []
     s = []
-    for i in range(64):
+    for i in range(90):
         response = requests.get(url)
         data = response.json()['message']['data']
         if not data in tiles:
@@ -58,8 +58,8 @@ def parsing(url):
             a[i][j] = order[i // 64][j // 64][i % 64][j % 64]
     return a
 def parsing2(url):
-    response = requests.get(url)
-    data = response.json()['message']['data']
+    response = requests.get(url+'/coords')
+    data = response.json()['message']
     return data
 
 def page(request):
@@ -69,17 +69,14 @@ def page(request):
     if request.method == 'POST':
         form = URL(request.POST)
         if form.is_valid():
-            try:
-                Url_adress.objects.create(**form.cleaned_data)
-                data = parsing(**form.cleaned_data)
-                coords = parsing2(**form.cleaned_data+'/coords')
-                for i in range(2):
-                    if i == 0:
-                        return render(request, 'main/index.html', {'data': data,'coords':coords})
-                    else:
-                        return redirect('main')
-            except:
-                form.add_error(None, 'Ошибка')
+
+            Url_adress.objects.create(**form.cleaned_data)
+            data = parsing(**form.cleaned_data)
+            coords = parsing2(**form.cleaned_data)
+            С = Stations(data=str(data),coords=str(coords))
+            С.save()
+            return render(request, 'main/index.html', {'data': data,'coords':coords})
+
     else:
         form = URL()
 

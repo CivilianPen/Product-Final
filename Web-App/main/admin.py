@@ -7,8 +7,8 @@ from .models import  *
 
 @admin.register(Stations)
 class GoodsAdmin(admin.ModelAdmin):
-    list_display = ['goods','count','rented_count']
-    list_editable = ['goods','count','rented_count']
+    list_display = ['data','coords']
+    list_editable = ['data','coords']
     list_display_links = None
 
 @admin.register(Url_adress)

@@ -7,6 +7,7 @@
 {% block script %}
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 {% endblock %}
 
 {% block content %}
@@ -19,6 +20,81 @@
                             Поиск
                         </button>
                     </form>
-                {{data}}
+
+
+<div class="1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+            <script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+    <script class="2">
+    let tile ={{data}}
+    let coords = {{coords}}
+let sender=[12,54]
+let listener=[231,24]
+
+let RS_show = false
+let BS_show = false
+let BR_show = false
+
+function setup() {
+  createCanvas(1024, 1124);
+}
+
+function draw() {
+  background(255,150,0)
+  for(i=0;i<256;i++){
+    for(j=0;j<256;j++){
+      strokeWeight(4)
+      stroke(tile[i][j])
+      point(i*4,j*4)
+    }
+  }
+  if(RS_show){
+    fill(255,0,0)
+    circle(sender[0]*4,sender[1]*4,20)
+    fill(100,255,100)
+    circle(listener[0]*4,listener[1]*4,20)
+  }
+  fill(255,0,0)
+  if(RS_show){fill(0,255,0)}
+  rect(50,1024,241,100)
+  fill(255,0,0)
+  if(BS_show){fill(0,255,0)}
+  rect(391,1024,241,100)
+  fill(255,0,0)
+  if(BR_show){fill(0,255,0)}
+  rect(732,1024,241,100)
+}
+function mouseClicked(){
+  if(mouseX>50&&mouseX<291&&mouseY>1024&&mouseY<1124){
+    if(RS_show){
+      RS_show=false
+    }
+    else{
+      RS_show=true
+    }
+  }
+  if(mouseX>391&&mouseX<632&&mouseY>1024&&mouseY<1124){
+    if(BS_show){
+      BS_show=false
+    }
+    else{
+      BS_show=true
+    }
+  }
+  if(mouseX>732&&mouseX<973&&mouseY>1024&&mouseY<1124){
+    if(BR_show){
+      BR_show=false
+    }
+    else{
+      BR_show=true
+    }
+  }
+}
+
+</script>
+</div>
+
 
 {% endblock %}

@@ -9,16 +9,14 @@ import random
 import string
 
 class Stations(models.Model):
-    goods = models.CharField('Состояние', max_length=20, null=True)
-    count = models.IntegerField('Количество', default=1,validators=[MinValueValidator(1)])
-    rented_count = models.IntegerField('Взято', default=0,validators=[MinValueValidator(0)])
+    data = models.CharField('карта', max_length=10**10, null=True)
+    coords = models.CharField('координаты', max_length=10**10, null=True)
+
 
     class Meta:
-        verbose_name = "Инвентарь"
-        verbose_name_plural = "Инвентарь"
+        verbose_name = "Карта"
+        verbose_name_plural = "Карты"
 
-    def __str__(self):
-        return f"{self.count-self.rented_count}шт"
 
 class Url_adress(models.Model):
     url = models.CharField(max_length=255)
