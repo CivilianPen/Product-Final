@@ -16,6 +16,16 @@ from .utils import *
 import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('main')
+import requests
+def parsing(url):
+    MAP = []
+    s = []
+    for i in range(64):
+        response = requests.get(url)
+        data = response.json()['message']['data']
+        if not data in MAP:
+            MAP.append(data)
+    return MAP
 
 def page(request):
     ''' Главная страница (просмотр инвентаря)'''
@@ -26,7 +36,8 @@ def page(request):
         if form.is_valid():
             try:
                 Url_adress.objects.create(**form.cleaned_data)
-                return redirect('main')
+                data = parsing(**form.cleaned_data)
+                return render(request, 'main/index.html' , {'data': data})
             except:
                 form.add_error(None, 'Ошибка')
     else:
