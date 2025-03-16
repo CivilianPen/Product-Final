@@ -44,4 +44,8 @@ for i in range(256):
     for j in range(256):
         a[i].append([0])
         a[i][j]=order[i//64][j//64][i%64][j%64]
-    
+b=[]
+for i in range(2,253):
+    for j in range(2,253):
+        if a[i][j-1]<a[i][j] and a[i][j+1]<a[i][j] and a[i-1][j]<a[i][j] and a[i+1][j]<a[i][j]:
+            b.append([i,j])
