@@ -10,7 +10,6 @@
 {% endblock %}
 
 {% block content %}
-    {% if request.user.is_authenticated %}
 
                 <div class="container mt-5">
 
@@ -31,12 +30,7 @@
                             <td> {{el.count}}</td>
                             <td> {{el.condition}}</td>
                         </tr>
-                        {% endfor %}
+                      {% endfor %}
                     </table>
                 </div>
-    {% else %}
-
-        <p class = 'enter_or_reg'>Войдите или зарегистрируйтесь</p>
-
-    {% endif %}
 {% endblock %}

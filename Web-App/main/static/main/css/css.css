@@ -7,7 +7,7 @@ body{
     place-items: left;
     background: #1B7CAD;
     width: 100%;
-    height: 100px;
+    height: 50px;
     overflow: auto;
 }
 .lower {
@@ -20,13 +20,6 @@ body{
     font-size: 24px;
     margin-top: -6px;
 }
-.back{
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-}
-.admin-hello{
-}
 h4 {
     text-align: center;
 }
@@ -36,82 +29,10 @@ h4 {
     font-weight: bold;
     color: #fff;
 }
-
-.last {
-    float:right;
-    color: #fff;
-}
-
 h1 {
     text-align: center;
 }
 
-li {
-  list-style-type: none;
-}
-.tab {
-    width: 50%;
-    vertical-align: middle;
-    font-size: 24px;
-}
-.left {
-    position: absolute;
-}
-.right {
-    text-align: right;
-}
-.side-bar {
-    width: 220px;
-    background: #e3f5ff;
-    overflow: auto;
-    font-size: 20px;
-}
-.admin-content{
-    display: grid;
-    grid-template-columns: 210px 80vw;
-    height: 87.3%
-}
-.right-content{
-    width: 100%;
-    margin-top: 40px;
-    margin-right: auto;
-    margin-left: auto;
-    overflow: auto;
-}
-.form {
-   width:100%;
-}
-.form_user {
-    display: grid;
-    place-items: center;
-}
-.form_admin {
-    display: grid;
-    place-items: center;
-
-}
-.form_content {
-    padding-top: 27px;
-    font-size: 1.7rem;
-    background-color: #e3f5ff;
-    padding-left: 100px;
-    padding-right: 100px;
-    border-radius: 50px;
-    padding-bottom: 20px;
-}
-.form_title {
-    margin-top: 15px;
-    font-size: 1.7rem;
-}
-.form_forms_p {
-    margin-top: 15px;
-    font-size: 1.7rem;
-    text-align: center;
-    overflow: auto;
-}
-.form_forms{
-
-}
 .review {
     float: left;
     font-size: 1.5rem;
@@ -127,9 +48,4 @@ li {
     padding-left: 40px;
     padding-top: 15px;
     padding-bottom: 15px
-}
-.enter_or_reg{
-    font-size: 1.7rem;
-    display: grid;
-    place-items: center;
 }
