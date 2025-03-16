@@ -47,7 +47,20 @@ def parsing(url):
                             c += 1
                 if c >= 55:
                     order[y][x] = i
-    return order
+    for x in range(4):
+        for y in range(4):
+            order[x][y] = tiles[order[x][y]]
+    a = []
+    for i in range(256):
+        a.append([0])
+        for j in range(256):
+            a[i].append([0])
+            a[i][j] = order[i // 64][j // 64][i % 64][j % 64]
+    return a
+def parsing2(url):
+    response = requests.get(url)
+    data = response.json()['message']['data']
+    return data
 
 def page(request):
     ''' Главная страница (просмотр инвентаря)'''
@@ -59,7 +72,12 @@ def page(request):
             try:
                 Url_adress.objects.create(**form.cleaned_data)
                 data = parsing(**form.cleaned_data)
-                return render(request, 'main/index.html' , {'data': data})
+                coords = parsing2(**form.cleaned_data+'/coords')
+                for i in range(2):
+                    if i == 0:
+                        return render(request, 'main/index.html', {'data': data,'coords':coords})
+                    else:
+                        return redirect('main')
             except:
                 form.add_error(None, 'Ошибка')
     else:
