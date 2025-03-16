@@ -9,3 +9,6 @@ from django.contrib.admin import widgets
 import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('main')
+
+class URL(forms.Form):
+    url = forms.CharField(max_length=255)

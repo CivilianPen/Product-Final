@@ -20,3 +20,8 @@ class Stations(models.Model):
     def __str__(self):
         return f"{self.count-self.rented_count}шт"
 
+class Url_adress(models.Model):
+    url = models.CharField(max_length=255)
+    class Meta:
+        verbose_name = "Ссылка"
+        verbose_name_plural = "Ссылки"

@@ -11,26 +11,14 @@
 
 {% block content %}
 
-                <div class="container mt-5">
+                    <form action="{% url 'main' %}" method="post">
+                        {% csrf_token %}
+                        <p><label for="{{ form.url.id_for_label }}"> {{form.url.label}}:</label> {{ form.url}}</p>
+                        <div>{{ form.url.errors}}</div>
+                        <button class="btn" type="submit">
+                            Поиск
+                        </button>
+                    </form>
 
-                    <table  class="table table-striped">
-                      <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Название</th>
-                            <th>Количество</th>
-                            <th>Состояние</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      {% for el in Items %}
-                        <tr>
-                            <td> {{ forloop.counter }}</td>
-                            <td> {{el.goods}}</td>
-                            <td> {{el.count}}</td>
-                            <td> {{el.condition}}</td>
-                        </tr>
-                      {% endfor %}
-                    </table>
-                </div>
+
 {% endblock %}
