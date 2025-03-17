@@ -20,7 +20,7 @@ import requests
 def parsing(url):
     tiles = []
     s = []
-    for i in range(90):
+    for i in range(52):
         response = requests.get(url)
         data = response.json()['message']['data']
         if not data in tiles:
@@ -75,6 +75,7 @@ def page(request):
             coords = parsing2(**form.cleaned_data)
             С = Stations(data=str(data),coords=str(coords))
             С.save()
+
             return render(request, 'main/index.html', {'data': data,'coords':coords})
 
     else:
