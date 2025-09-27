@@ -139,7 +139,7 @@ class Supplier(models.Model):
 
 
 class PurchasePlan(models.Model):
-    item = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='purchase_plans', verbose_name="Товар")
+    item = models.ForeignKey(Goods_Names, on_delete=models.CASCADE, related_name='purchase_plans', verbose_name="Товар")
     supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, verbose_name="Поставщик")
     planned_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Планируемая цена",validators=[MinValueValidator(1)])
     count = models.IntegerField(default=1, verbose_name="Количество",validators=[MinValueValidator(1)])
