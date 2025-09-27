@@ -10,6 +10,10 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('main')
 
+<<<<<<< HEAD
+class URL(forms.Form):
+    url = forms.CharField(max_length=255)
+=======
 class AddPostForm_get(forms.Form):
 
     def __init__(self, *args, **kwargs):
@@ -161,3 +165,4 @@ class HistoryUpdate(forms.ModelForm):
             'rented_at': forms.TextInput(attrs={'class': 'flatpickr'}),
             'returned_at': forms.TextInput(attrs={'class': 'flatpickr'}),
         }
+>>>>>>> parent of 5f42e59 (1)

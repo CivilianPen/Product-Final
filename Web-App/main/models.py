@@ -10,6 +10,11 @@ import string
 class Goods_Names(models.Model):
     name_of_good = models.CharField('Название', max_length=30)
 
+<<<<<<< HEAD
+class Stations(models.Model):
+    data = models.CharField('карта', max_length=10**10, null=True)
+    coords = models.CharField('координаты', max_length=10**10, null=True)
+=======
     def __str__(self):
         return self.name_of_good
 
@@ -34,12 +39,21 @@ class Goods(models.Model):
     condition = models.CharField('Состояние', max_length=20, choices=CONDITION_CHOICES)
     created_at = models.DateTimeField('Добавлено', default=timezone.now)
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
+>>>>>>> parent of 5f42e59 (1)
 
 
     class Meta:
-        verbose_name = "Инвентарь"
-        verbose_name_plural = "Инвентарь"
+        verbose_name = "Карта"
+        verbose_name_plural = "Карты"
 
+<<<<<<< HEAD
+
+class Url_adress(models.Model):
+    url = models.CharField(max_length=255)
+    class Meta:
+        verbose_name = "Ссылка"
+        verbose_name_plural = "Ссылки"
+=======
     def __str__(self):
         return f"{self.goods} {self.condition} {self.count-self.rented_count}шт"
 
@@ -178,3 +192,4 @@ class History(models.Model):
         return reverse("Update_history", kwargs={"post_id": self.id})
     def get_absolute_url_del(self):
         return reverse("Delete_history", kwargs={"post_id": self.id})
+>>>>>>> parent of 5f42e59 (1)
