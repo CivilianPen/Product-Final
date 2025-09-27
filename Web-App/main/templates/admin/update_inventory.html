@@ -1,0 +1,31 @@
+{% extends 'admin/admin-layout.html' %}
+
+{% block title %}
+    Изменение инвентаря
+{% endblock %}
+
+{% block script %}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+{% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+
+            <div class="form_admin">
+            <form method="post" class="form_content">
+                {% csrf_token %}
+                {{ form.as_p }}
+            <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="submit" class = 'btn btn-success btn-lg'>Изменить</button>
+                </div>
+            </form>
+         </div>
+
+
+    {% else %}
+
+        <p class = 'enter_or_reg'>Войдите или зарегистрируйтесь</p>
+
+    {% endif %}
+{% endblock %}

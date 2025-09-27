@@ -1,0 +1,70 @@
+{% extends 'admin/admin-layout.html' %}
+
+{% block title %}
+    Редактирование инвентаря
+{% endblock %}
+
+{% block script %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+{% endblock %}
+
+{% block content %}
+    <div class="admin-form-edit-inventory">
+        <h1>Добавление инвентаря</h1>
+        <div class="form_admin">
+            <form method="post" class="form_content">
+            {% csrf_token %}
+            {{ form.as_p }}
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="submit" class = 'btn btn-success btn-lg'>Добавить</button>
+                </div>
+            </form>
+        </div>
+        <div class="container mt-5">
+                <h1>Инвентарь</h1>
+                    <table  class="table table-striped">
+                      <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Количество</th>
+                            <th>Взято</th>
+                            <th>Состояние</th>
+                            <th>Изменить</th>
+                            <th>Удалить</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for el in g %}
+                        <tr>
+                            <td> {{ forloop.counter }}</td>
+                            <td> {{el.goods}}</td>
+                            <td> {{el.count}}</td>
+                            <td> {{el.rented_count}}</td>
+                            <td> {{el.condition}}</td>
+                            <td><a class="btn btn-secondary" href="{{el.get_absolute_url}}">Изменить</a></td>
+                            <td><a class="btn btn-danger" href="{{el.get_absolute_url_del}}" >Удалить</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+
+
+
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
+        <script>
+            flatpickr('.flatpickr', {
+                enableTime: false, // Если нужно выбирать время
+                dateFormat: "Y-m-d", // Формат даты
+                locale: "ru" // Локализация
+            });
+        </script>
+
+    </div>
+
+{% endblock %}

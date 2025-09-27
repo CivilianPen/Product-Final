@@ -1,0 +1,72 @@
+{% extends 'admin/admin-layout.html' %}
+
+{% block title %}
+    План закупок
+{% endblock %}
+
+{% block script %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="admin-form-add-plan">
+        <h1>Добавить план закупки</h1>
+        <div class="form_admin">
+            <form method="post" class="form_content">
+            {% csrf_token %}
+            {{ form.as_p }}
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="submit" class = 'btn btn-success btn-lg'>Добавить</button>
+                </div>
+            </form>
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
+        <script>
+            flatpickr('.flatpickr', {
+                enableTime: false, // Если нужно выбирать время
+                dateFormat: "Y-m-d", // Формат даты
+                locale: "ru" // Локализация
+            });
+        </script>
+    </div>
+    <div class="container mt-5">
+        <h1 class="mb-4">План закупок</h1>
+        {% if plans %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Предмет</th>
+                        <th>Поставщик</th>
+                        <th>Планируемая цена за единицу</th>
+                        <th>Количество</th>
+                        <th>Планируемая дата</th>
+                        <th>Удалить</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for plan in plans %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ plan.item }}</td>
+                            <td>{{ plan.supplier }}</td>
+                            <td>{{ plan.planned_price }} ₽</td>
+                            <td>{{ plan.count }}</td>
+                            <td>{{ plan.planned_date }}</td>
+                            <td><a class="btn btn-danger" href="{{plan.get_absolute_url_del}}">Удалить</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        {% else %}
+            <p>Нет доступных планов закупки.</p>
+        {% endif %}
+    </div>
+{% endblock %}

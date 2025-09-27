@@ -1,0 +1,62 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Заявки
+{% endblock %}
+
+{% block content %}
+               {% if request.user.is_authenticated %}
+                <div class = 'form_user'>
+                    <p class = 'form_title'>Форма подачи заявки на ремонт или замену инвентаря</p>
+                    <form action="{% url 'application-repair' %}" method="post" class ='form_content'>
+
+                        {% csrf_token %}
+                        <p><label for="{{ form.username.id_for_label }}"> Имя:</label> {{form.username}}</p>
+                        <div>{{ form.User.errors}}</div>
+                        <p><label for="{{ form.Request.id_for_label }}"> Предмет:</label> {{ form.Request}}</p>
+                        <div>{{ form.Request.errors}}</div>
+                        <p><label for="{{ form.Request.id_for_label }}"> Действие:</label> {{ form.Aim }}</p>
+                        <div>{{ form.Request.errors}}</div>
+                        <p><label for="{{ form.Comment.id_for_label }}"> Комментарий:</label> {{ form.Comment }}</p>
+                        <div>{{ form.Request_count.errors}}</div>
+                        <div>
+                            <ul class="errorlist">
+                                <li>{{ error}}</li>
+                            </ul>
+                        </div>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button type="submit" class = 'btn btn-success btn-lg'>Добавить</button>
+                        </div>
+                    </form>
+                </div>
+
+                    <div class = 'form_forms'>
+                        <p class = 'form_forms_p'> Ваши заявки, {{ request.user }} </p>
+
+                    {% for el in n %}
+
+                        <div class = 'review'>
+
+
+                                <div class="card border-primary mb-3" style="max-width: 18rem;">
+                              <div class="card-header">{{el.Request}}</div>
+                              <div class="card-body text-primary">
+                                <h3 class="card-title">{{el.Status}}</h3>
+                                <p class="card-text">{{el.Aim}}</p>
+                                <p class="card-text">{{el.Comment}}</p>
+                              </div>
+                            </div>
+                        </div>
+
+
+                        </div>
+
+
+                    {% endfor %}
+                    </div>
+                {% else %}
+
+                    <p class = 'enter_or_reg'>Войдите или зарегистрируйтесь</p>
+
+                {% endif %}
+{% endblock %}

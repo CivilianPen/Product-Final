@@ -11,6 +11,7 @@
 {% endblock %}
 
 {% block content %}
+    {% if request.user.is_authenticated %}
 
                     <form action="{% url 'main' %}" method="post">
                         {% csrf_token %}
@@ -21,8 +22,7 @@
                         </button>
                     </form>
 
-{{data}}
-{{coords}}
+
 <div class="1">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
             <script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -98,4 +98,32 @@ function mouseClicked(){
 </div>
 
 
+<<<<<<< HEAD
+=======
+                    <table  class="table table-striped">
+                      <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Количество</th>
+                            <th>Состояние</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for el in Items %}
+                        <tr>
+                            <td> {{ forloop.counter }}</td>
+                            <td> {{el.goods}}</td>
+                            <td> {{el.count}}</td>
+                            <td> {{el.condition}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+    {% else %}
+
+        <p class = 'enter_or_reg'>Войдите или зарегистрируйтесь</p>
+
+    {% endif %}
+>>>>>>> parent of 5f42e59 (1)
 {% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'admin/admin-layout.html' %}
+
+{% block title %}
+    Заявки на получение инвентар
+{% endblock %}
+
+{% block script %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="admin-form-edit-inventory">
+        <h1>Заявки на получение инвентаря</h1>
+
+        <div class="container mt-5">
+
+                    <table  class="table table-striped">
+                      <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Имя</th>
+                            <th>Предмет</th>
+                            <th>Количество</th>
+                            <th>Статус</th>
+                            <th>Изменить</th>
+                            <th>Удалить</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for el in a %}
+                        <tr>
+                            <td> {{ forloop.counter }}</td>
+                            <td> {{el.username}}</td>
+                            <td> {{el.Request}}</td>
+                            <td> {{el.Request_count}}</td>
+                            <td> {{el.Status}}</td>
+                            <td><a class="btn btn-success" href="{{el.get_absolute_url}}">Изменить</a></td>
+                            <td><a class="btn btn-danger" href="{{el.get_absolute_url_del }}">Удалить</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+
+        </div>
+
+
+    </div>
+{% endblock %}

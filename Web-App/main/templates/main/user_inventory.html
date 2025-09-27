@@ -1,0 +1,40 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Главная
+{% endblock %}
+
+{% block script %}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+{% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+
+                <div class="container mt-5">
+
+                    <table  class="table table-striped">
+                      <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Количество</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for el in Items %}
+                        <tr>
+                            <td> {{ forloop.counter }}</td>
+                            <td> {{el.Rent}}</td>
+                            <td> {{el.Count}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+    {% else %}
+
+        <p class = 'enter_or_reg'>Войдите или зарегистрируйтесь</p>
+
+    {% endif %}
+{% endblock %}
