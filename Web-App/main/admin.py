@@ -5,19 +5,8 @@ from .models import  *
 # Register your models here.
 @admin.register(Goods_Names)
 class GoodsAdmin(admin.ModelAdmin):
-<<<<<<< HEAD
-    list_display = ['data','coords']
-    list_editable = ['data','coords']
-    list_display_links = None
-
-@admin.register(Url_adress)
-class GoodsAdmin(admin.ModelAdmin):
-    list_display = ['url']
-    list_editable = ['url']
-=======
     list_display = ['name_of_good']
     list_editable = ['name_of_good']
->>>>>>> parent of 5f42e59 (1)
     list_display_links = None
 
 @admin.register(Goods)
